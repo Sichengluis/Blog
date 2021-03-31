@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!--前边404还有500页面，是springboot帮我们拦截了错误，并根据错误的方式，帮我们加载对应的页面进行显示（页面名字必须是404 500这种）-->
+<!--我们也可以自定义页面（页面名字随便取），让代码出现异常的情况下，跳转到我们自定义的页面，这就需要我们自己定义拦截器拦截错误，并跳转到对应页面-->
+<head th:replace="_fragments::head(~{::title})">
+    <!--~{::title}代表把整个title标签即<title>首页</title>作为参数传递了过去-->
+    <meta charset="UTF-8">
+    <!--适配移动端-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出错了</title>
+    <!--<link ref="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/myCss.css" >
+</head>
+<body>
+    <!--网页显示内容-->
+    <nav th:replace="_fragments::menu(0)" ></nav>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--中间内容-->
+    <div class="m-container-small m-padded-tb-massive">
+        <div class="ui error message m-padded-tb-huge">
+            <div class="ui container">
+                <h2>出错了~</h2>
+                <p>对不起，您访问的网页异常，请稍后再试</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--底部-->
+    <footer th:replace="_fragments::footer" ></footer>
+    <!--非显示内容，在网页源代码显示出错的异常信息（用户看不到）
+    这样出现异常后我们直接在页面中就可以看到出错的堆栈信息，而不用跑到服务器去看日志-->
+    <div>
+        <div th:utext="'&lt;!--'" th:remove="tag"></div>
+        <div th:utext="'Failed Request URL : ' + ${url}" th:remove="tag"></div>
+        <div th:utext="'Exception message : ' + ${exception.message}" th:remove="tag"></div>
+        <ul th:remove="tag">
+            <li th:each="st : ${exception.stackTrace}" th:remove="tag"><span th:utext="${st}" th:remove="tag"></span></li>
+        </ul>
+        <div th:utext="'--&gt;'" th:remove="tag"></div>
+    </div>
+</body>
+</html>

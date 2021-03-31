@@ -1,0 +1,16 @@
+
+spring:
+  thymeleaf:
+    mode: HTML
+  profiles:
+    active: dev
+  messages:
+    basename: i18n/messages
+    encoding: utf-8
+  http:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+      enabled: true
+
+comment.avatar: /images/anonymousCommenterAvatar.png

@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://39.105.51.183:3306/blog?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: "root"
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+#  http:
+#    multipart:
+#      location: /root/blog/tmp
+
+
+logging:
+  level:
+    root: warn
+    com.scluis: debug
+  file: log/blog-prod.log
+
+server:
+  port: 80
+  tomcat:
+    basedir: /root/blog/tmp
+
+web.image-save-path: /root/blog/images/
+
+
+
+
+
+
+

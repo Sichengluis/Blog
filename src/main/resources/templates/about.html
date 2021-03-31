@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments::head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/myCss.css">
+</head>
+<body>
+<!--导航-->
+
+    <nav th:replace="_fragments::menu(5)" ></nav>
+    <!--动态背景-->
+    <canvas></canvas>
+    <!--中间内容-->
+    <div class="ui container m-mobile-margin-top" id="wrap">
+        <div class="ui stackable grid">
+            <div class="eleven wide column animate__animated animate__fadeInUp">
+                <div class="ui segment">
+                    <img src="../static/images/myPhotohdu.jpeg" th:src=@{/images/myPhotohdu.jpeg} alt="" class="ui rounded image">
+                </div>
+            </div>
+            <div class="five wide column animate__animated animate__fadeInDown">
+                <div class="ui top attached segment">
+                    <div class="ui header">关于我</div>
+                </div>
+                <!--个人介绍-->
+                <div class="ui attached segment">
+                    <p class="m-text" >Hduer&Developer</p>
+                    <p class="m-text" >热爱编程,喜欢折腾</p>
+                </div>
+                <!--个人标签-->
+                <div class="ui attached segment">
+                    <div class="ui black basic left pointing label">编程</div>
+                    <div class="ui black basic left pointing label">音乐</div>
+                    <div class="ui black basic left pointing label">运动</div>
+                </div>
+                <!--技术标签-->
+                <div class="ui attached segment">
+                    <div class="ui black  label m-margin-tb-tiny">Java</div>
+                    <div class="ui black label m-margin-tb-tiny">SpringBoot</div>
+                    <div class="ui black label m-margin-tb-tiny">Thymeleaf</div>
+                    <div class="ui black  label m-margin-tb-tiny">Vue</div>
+                    <div class="ui black  label m-margin-tb-tiny">React</div>
+                    <div class="ui black  label m-margin-tb-tiny">RN</div>
+                    <div class="ui black  label m-margin-tb-tiny">MySQL</div>
+                    <div class="ui black  label m-margin-tb-tiny">Oracle</div>
+                    <div class="ui black  label m-margin-tb-tiny">Git</div>
+
+                </div>
+                <!--联系方式-->
+                <div class="ui bottom attached segment">
+                    <a href="javascript:void(0)" id="github" class="ui circular icon button" data-content="Sichengluis" data-position="bottom center">
+                        <i class="github icon"></i>
+                    </a>
+                    <a href="javascript:void(0)" id="wechat" class="ui circular icon button">
+                        <i class="weixin icon"></i>
+                    </a>
+                    <a href="javascript:void(0)" id="qq" class="ui circular icon button" >
+                        <i class="qq icon"></i>
+                    </a>
+                </div>
+                <div id="wechatQR" class="ui flowing popup transition hidden">
+                    <img src="../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui rounded image" style="width: 120px">
+                </div>
+                <div id="qqQR" class="ui flowing popup transition hidden">
+                    <img src="../static/images/qq.jpg" th:src="@{/images/qq.jpg}" alt="" class="ui rounded image" style="width: 120px">
+                </div>
+
+            </div>
+        </div>
+        <!--工具条-->
+        <th:block th:replace="_fragments::publicToolBar"></th:block>
+    </div>
+
+<!--底部-->
+    <footer th:replace="_fragments::footer" ></footer>
+    <!--/*/<th:block th:replace="_fragments :: javaScript">/*/-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <!--/*/</th:block>/*/-->
+<script>
+    $('#mobileMenu').click(function(){
+//        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    /* 鼠标点击特效 */
+    $("body").click(function(e) {
+        //随机选择文字
+        var a_idx = Math.floor((Math.random() * 11));
+        var a = new Array(
+            "富强", "民主", "文明", "和谐", "自由", "平等",
+            "公正" ,"法治", "爱国", "敬业", "诚信", "友善"
+        );
+        // 随机产生文字颜色
+        // var color1 = Math.floor((Math.random() * 255));
+        // var color2 = Math.floor((Math.random() * 255));
+        // var color3 = Math.floor((Math.random() * 255));
+
+        var $i = $("<span />").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+            y = e.pageY;
+        $i.css({　　　　　　//文字样式--------------------------
+            "z-index": 9999999999999 ,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-family":"mmm",
+            "fontSize":Math.floor((Math.random() * 22)+6),
+            "font-weight": "bold",
+            // "color": "rgb("+color1+","+color2+","+color3+")",
+            "color": "white",
+            "-webkit-user-select":"none",
+            "-moz-user-select":"none",
+            "-ms-user-select":"none",
+            "user-select":"none",
+        });
+        $("body").append($i);
+        $i.animate({
+                "top": y - 200,  //点击后文字上升高度
+                "opacity": 0    //透明度
+            },
+            1000,
+            function() {
+                $i.remove();//文字消失时间
+            });
+    });
+    $('#github').popup()
+    $('#wechat').popup({
+        popup:$('#wechatQR.popup'),
+        //on:'click',//设置触发方式，默认是hover
+        position: 'bottom center'//弹出的位置
+    })
+    $('#qq').popup({
+        popup:$('#qqQR.popup'),
+        //on:'click',//设置触发方式，默认是hover
+        position: 'bottom center'//弹出的位置
+    })
+</script>
+</body>
+</html>

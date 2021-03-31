@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head(~{::title})">
+    <meta charset="UTF-8">
+    <!--适配移动端-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/myCss.css" th:href="@{/css/myCss.css}">
+</head>
+<body>
+<!--导航-->
+
+    <nav th:replace="admin/_fragments::menu(2)" ><!--inverted颜色反转--></nav>
+    <!--二级导航-->
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="left menu">
+                <a href="#" class="item" th:href="@{/admin/types/toSaveOrUpdateType/}">新增</a>
+                <a href="#" class="black active item" th:href="@{/admin/types}">列表</a>
+            </div>
+        </div>
+    </div>
+    <canvas></canvas>
+    <!--中间内容-->
+    <!--container会根据浏览器的不同，自动设置边距，更好的相应移动端-->
+    <div class="ui container m-mobile-margin-top " style="position: relative !important;">
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}"></p>
+        </div>
+        <!--<div class="field " >-->
+            <!--<a href="#" th:href="@{/admin/types/toSaveOrUpdateType/}" class="ui mini  black  button">新增</a>-->
+        <!--</div>-->
+        <!--表格-->
+        <table class="ui black compact table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>名称</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="type,index:${page.content}">
+                    <td th:text="${index.count}"></td>
+                    <td th:text="${type.typeName}"></td>
+                    <td>
+                        <!--(id=${type.id})是传参-->
+                        <a href="#" th:href="@{/admin/types/toSaveOrUpdateType/{id}(id=${type.id})}" class="ui mini black basic button">编辑</a>
+                        <a href="#" th:href="@{/admin/types/delete/{id}(id=${type.id})}" class="ui mini black button">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <!--设置总页数大于1才显示上下一页-->
+                    <th colspan="6" th:if="${page.totalPages>1}">
+                        <div class="ui right floated mini pagination menu">
+                            <a class="icon item" th:href="@{/admin/types(page=0)}">
+                                <i class="angle double left icon"></i>
+                            </a>
+                            <!--设置不是第一页才有上一页选项，不是最后一页才有下一页选项-->
+                            <a th:href="@{/admin/types(page=${page.number}-1)}" class="item" th:unless="${page.first}">上一页</a>
+                            <a th:href="@{/admin/types(page=${page.number}+1)}" class="item" th:unless="${page.last}">下一页</a>
+                            <a class="icon item" th:href="@{/admin/types(page=${page.totalPages}-1)}">
+                                <i class="angle double right icon"></i>
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+<!--底部-->
+
+
+    <footer th:replace="admin/_fragments::footer"></footer>
+<!--利用thymeleaf模板引入js-->
+<!--/*/<th:block th:replace="admin/_fragments::javaScript">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="../static/lib/prism/prism.js"></script>
+<script src="../static/lib/tocbot/tocbot.min.js"></script>
+<script src="../static/lib/qrcode/qrcode.min.js"></script>
+<script src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('#mobileMenu').click(function(){
+//        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    $('.ui.dropdown').dropdown({
+        on:'hover'
+    });
+    //消息提示关闭初始化
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+</script>
+</body>
+</html>

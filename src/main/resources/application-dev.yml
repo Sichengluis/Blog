@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: "123456"
+
+  jpa:
+    hibernate:
+      dl-auto: update #update代表根据实体类自动更新数据库表结构
+    show-sql: true #设置在控制台和日志文件中输入sql语句
+#配置springboot默认使用的logback日志框架
+logging:
+  level:
+  #根据不同的包设置不同的日志级别
+    root: info #root代表springBoot框架本身的级别
+    com.scluis: debug #指定具体某个包的日志级别
+  file: log/blog-dev.log #指定日志文件的生成位置，默认生成位置是项目的根目录
+server:
+  port: 8888
+
+# 自定义文件存储路径
+web.image-save-path: D:/myImages/blog/
+# 自定义前台显示图片路径
+#web.image-show-path: http://localhost:8888/images/
+
+
+
+

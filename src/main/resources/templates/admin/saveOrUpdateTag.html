@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head(~{::title})">
+    <title>新增标签</title>
+</head>
+<body>
+    <!--导航-->
+    <nav th:replace="admin/_fragments::menu(3)" ><!--inverted颜色反转--></nav>
+    <!--二级导航-->
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="left menu">
+                <a href="#" class="black active item" th:href="@{/admin/tags/toSaveOrUpdateTag/}">新增</a>
+                <a href="#" class="item" th:href="@{/admin/tags}">列表</a>
+            </div>
+        </div>
+    </div>
+    <canvas></canvas>
+    <!--中间内容-->
+    <!--container会根据浏览器的不同，自动设置边距，更好的相应移动端-->
+    <div class="ui center aligned container m-mobile-margin-top " style="position: relative !important; max-width: 60em !important;">
+        <!--th:object="${tag}"获取后端返回的tag对象-->
+        <form action="#" method="post" class="ui form" th:object="${tag}"
+              th:action="@{/admin/tags/saveOrUpdateTag}">
+            <input type="hidden" name="id" th:value="*{id}">
+            <!--标签名称-->
+            <div class="required field">
+                <div class="ui left labeled input">
+                    <label class="ui label">名称</label>
+                    <!--th:value="*{tagName}"获取tag对象的tagName属性赋值给文本框-->
+                    <input type="text" name="tagName" placeholder="标签名称..." th:value="*{tagName}">
+                </div>
+            </div>
+            <!--表单验证提示信息-->
+            <div class="ui error message"></div>
+            <!--后台校验的提示信息-->
+            <!--通过tagName拿到后台tag的tagName字段的错误提示信息-->
+            <!--/*/
+               <div class="ui negative message" th:if="${#fields.hasErrors('tagName')}"  >
+                 <i class="close icon"></i>
+                 <div class="header">操作失败</div>
+                 <p th:errors="*{tagName}"></p>
+               </div>
+            /*/-->
+            <!--返回和提交按钮-->
+            <div class="ui right aligned container">
+                <!--不指定tag默认是submit提交表单-->
+                <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
+                <button class="ui basic inverted submit button">提交</button>
+            </div>
+        </form>
+    </div>
+
+<!--底部-->
+    <footer th:replace="admin/_fragments::footer"></footer>
+    <!--利用thymeleaf模板引入js-->
+    <!--/*/<th:block th:replace="admin/_fragments::javaScript">/*/-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="../static/lib/prism/prism.js"></script>
+    <script src="../static/lib/tocbot/tocbot.min.js"></script>
+    <script src="../static/lib/qrcode/qrcode.min.js"></script>
+    <script src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
+    <!--/*/</th:block>/*/-->
+<script>
+//    移动端按钮的显示与否
+    $('#mobileMenu').click(function(){
+//        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    $('.ui.dropdown').dropdown({
+        on:'hover'
+    });
+    $('.ui.form').form({
+        fields:{
+            tagName:{
+                identifier:'tagName',
+                rules:[{
+                    type:'empty',
+                    prompt:'请输入标签名称'
+                }]
+            },
+        }
+    })
+    //消息提示关闭初始化
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+    });
+</script>
+</body>
+</html>

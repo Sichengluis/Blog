@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!--此文件定义了一些fragment，可以用它替换掉我们页面中的一些标签-->
+<!--这样顶部导航或者底部变动的时候，只需要在这个文件中改一次即可-->
+<!--头部fragment-->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <!--适配移动端-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--用title参数替换掉整个title标签-->
+    <title th:replace="${title}">博客详情</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/myCss.css" th:href="@{/css/myCss.css}">
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
+    <link rel="stylesheet" href="../static/lib/webuploader/webuploader.css" th:href="@{/lib/webuploader/webuploader.css}">
+    <link rel="stylesheet" href="../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+</head>
+
+<body>
+
+    <!--顶部导航fragment,传入参数activeIndex代表当前选中页面的下标-->
+    <nav th:fragment="menu(activeIndex)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small" ><!--inverted颜色反转-->
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui white header item">博客管理后台</h2>
+                <a href="#" th:href="@{/admin/blogs}" class="m-item item m-mobile-hide" th:classappend="${activeIndex==1} ? 'active'"><i class="small home icon"></i>博客</a>
+                <a href="#" th:href="@{/admin/types}" class="m-item item m-mobile-hide" th:classappend="${activeIndex==2} ? 'active'"><i class="small idea icon"></i>分类</a>
+                <a href="#" th:href="@{/admin/tags}"class="m-item item m-mobile-hide" th:classappend="${activeIndex==3} ? 'active'"><i class="small tags icon"></i>标签</a>
+                <!--头像部分-->
+                <div class="right menu m-item m-mobile-hide">
+                    <!--下拉框-->
+                    <div class="ui dropdown item">
+                        <!--直接显示的头像和文字-->
+                        <div class="text">
+                            <img class="ui avatar image" src="../../static/images/myPhoto.jpg" th:src="@{${session.user.avatar}}" >
+                            <span th:text="${session.user.nickname}"></span>
+                        </div>
+                        <i class="dropdown icon"></i>
+                        <!--下拉菜单-->
+                        <div class="menu">
+                            <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--移动端的显示菜单图标-->
+        <a href="#" class="ui black icon button m-right-top m-hideOrShow" id="mobileMenu">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+
+    <!--底部fragment-->
+    <footer th:fragment="footer" class="ui inverted vertical footer segment"style="margin-top: 30em;">
+        <div class="ui inverted section divider"></div>
+        <div class="ui center aligned container ">
+            <!--/*-->
+            <!--grid共有16份-->
+            <!--*/-->
+            <div class="ui inverted divided stackable grid">
+                <!--/*-->
+                <!--最新博客-->
+                <!--*/-->
+                <!--/*-->
+                <!--<div class="three wide column">-->
+                <!--<h4 class="ui inverted header m-text-thin m-text-spaced ">最新博客</h4>-->
+                <!--<div id="newBlogContainer">-->
+                <!--<div class="ui inverted link list" th:fragment="newBlogList">-->
+                <!--<a href="#" class="item" th:each="blog:${newBlogs}" th:text="${blog.title}" th:href="@{/blog/{id}(id=${blog.id})}">JAVA</a>-->
+                <!--&lt;!&ndash;/*&ndash;&gt;-->
+                <!--<a href="#" class="item">JS</a>-->
+                <!--<a href="#" class="item">PYTHON</a>-->
+                <!--&lt;!&ndash;*/&ndash;&gt;-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--*/-->
+
+                <!--/*-->
+                <!--联系我-->
+                <!--*/-->
+                <div class="five wide column">
+                    <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我</h4>
+                    <div class="ui inverted link list">
+                        <div class="item">[[#{scluisQQ}]]</div>
+                        <div class="item">[[#{scluisEmail}]]</div>
+                        <div class="item">[[#{scluisWechat}]]</div>
+                    </div>
+                </div>
+                <!--/*-->
+                <!--图片-->
+                <!--*/-->
+                <div class="six wide column">
+                    <h4 class="ui inverted header m-text-thin m-text-spaced ">打赏博主</h4>
+                    <div class="ui inverted link list">
+                        <div class="item">
+                            <img src="../static/images/AliCollect.jpg" th:src="@{/images/AliCollect.jpg}" class="ui rounded image" alt="" style="width: 110px;">
+                        </div>
+                    </div>
+                </div>
+                <!--/*-->
+                <!--关于我-->
+                <!--*/-->
+                <div class="five wide column">
+                    <h4 class="ui inverted header m-text-thin m-text-spaced ">关于我</h4>
+                    <div class="ui inverted link list">
+                        <div class="item">Hduer&Developer</div>
+                        <div class="item">热爱编程，喜欢折腾</div>
+                    </div>
+                </div>
+            </div>
+            <p class="m-text-thin m-text-spaced m-opacity-tiny m-margin-top-large" id="siteRuntime"></p>
+            <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2021 Sichengluis. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!--引入的js-->
+    <th:block th:fragment="javaScript">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+        <script  th:src="@{/lib/prism/prism.js}"></script>
+        <script  th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+        <script  th:src="@{/lib/qrcode/qrcode.min.js}"></script>
+        <script  th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+        <script  th:src="@{/lib/editormd/editormd.min.js}"></script>
+        <script  th:src="@{/lib/webuploader/webuploader.js}"></script>
+        <script  th:src="@{/js/uploadImg.js}"></script>
+        <script th:inline="javascript">
+            // 动态背景
+            $(function(){
+                var canvas = document.querySelector('canvas'),
+                    ctx = canvas.getContext('2d')
+                canvas.width = window.outerWidth;
+                canvas.height = window.outerHeight;
+                ctx.lineWidth = .3;
+                ctx.strokeStyle = (new Color(150)).style;
+
+                var mousePosition = {
+                    x: 30 * canvas.width / 100,
+                    y: 30 * canvas.height / 100
+                };
+
+                var dots = {
+                    nb: 666,//背景球数量
+                    distance: 100,
+                    d_radius: 150,
+                    array: []
+                };
+
+                function colorValue(min) {
+                    return Math.floor(Math.random() * 255 + min);
+                }
+
+                function createColorStyle(r,g,b) {
+                    return 'rgba(' + r + ',' + g + ',' + b + ', 0.8)';
+                }
+
+                function Color(min) {
+                    min = min || 0;
+                    this.r = colorValue(min);
+                    this.g = colorValue(min);
+                    this.b = colorValue(min);
+                    this.style = createColorStyle(this.r, this.g, this.b);
+                }
+
+                function Dot(){
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = -.5 + Math.random();
+                    this.vy = -.5 + Math.random();
+                    this.radius = Math.random() * 2;
+                    this.color = new Color();
+                }
+
+                Dot.prototype = {
+                    draw: function(){
+                        ctx.beginPath();
+                        ctx.fillStyle = this.color.style;
+                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                        ctx.fill();
+                    }
+                };
+
+                function createDots(){
+                    for(i = 0; i < dots.nb; i++){
+                        dots.array.push(new Dot());
+                    }
+                }
+
+                function moveDots() {
+                    for(i = 0; i < dots.nb; i++){
+
+                        var dot = dots.array[i];
+
+                        if(dot.y < 0 || dot.y > canvas.height){
+                            dot.vx = dot.vx;
+                            dot.vy = - dot.vy;
+                        }
+                        else if(dot.x < 0 || dot.x > canvas.width){
+                            dot.vx = - dot.vx;
+                            dot.vy = dot.vy;
+                        }
+                        dot.x += dot.vx;
+                        dot.y += dot.vy;
+                    }
+                }
+
+                function drawDots() {
+                    for(i = 0; i < dots.nb; i++){
+                        var dot = dots.array[i];
+                        dot.draw();
+                    }
+                }
+
+                function animateDots() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    moveDots();
+                    drawDots();
+                    requestAnimationFrame(animateDots);
+                }
+
+                $('canvas').on('mousemove', function(e){
+                    mousePosition.x = e.pageX;
+                    mousePosition.y = e.pageY;
+                });
+
+                $('canvas').on('mouseleave', function(e){
+                    mousePosition.x = canvas.width / 2;
+                    mousePosition.y = canvas.height / 2;
+                });
+
+                createDots();
+                requestAnimationFrame(animateDots);
+            });
+            // 网站运行时间
+            function runtime(){
+                // 初始时间，日/月/年 时:分:秒
+                X = new Date("1/30/2021 0:00:00");
+                Y = new Date();
+                T = (Y.getTime()-X.getTime());
+                M = 24*60*60*1000;
+                a = T/M;
+                A = Math.floor(a);
+                b = (a-A)*24;
+                B = Math.floor(b);
+                c = (b-B)*60;
+                C = Math.floor((b-B)*60);
+                D = Math.floor((c-C)*60);
+                //信息写入到DIV中
+                siteRuntime.innerHTML = "本站已经勉强运行: "+A+"天"+B+"小时"+C+"分"+D+"秒"
+            }
+            setInterval(runtime, 1000);
+            //滚动时导航栏相关
+            //滚动检测
+            var waypoint = new Waypoint({
+                element: document.getElementsByTagName("canvas"),//监听哪个元素有没有被滚动
+                handler: function(direction) {//滚动时触发的方法
+                    if(direction=='down'){
+                        $('#toolbar').show(500);
+                    }
+                    else{
+                        $('#toolbar').hide(500);//设置元素消失的时间间隔
+                    }
+                }
+            })
+            //平滑滚动
+            $('#toTopButton').click(function () {
+                $(window).scrollTo(0,888) //888是滚动到目标的时间
+            });
+        </script>
+    </th:block>
+
+</body>
+</html>

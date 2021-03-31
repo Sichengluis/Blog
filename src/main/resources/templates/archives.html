@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments::head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间线</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/myCss.css">
+</head>
+<body>
+<!--导航-->
+
+    <nav th:replace="_fragments::menu(4)" ></nav>
+    <!--动态背景-->
+    <canvas></canvas>
+    <!--中间内容-->
+    <div class="ui container m-mobile-margin-top" id="wrap">
+        <div class="ui stackable grid">
+            <!--左侧时间线-->
+            <div class="twelve wide column animate__animated animate__fadeInUp">
+                <!--头部-->
+                <div class="ui top attached padded segment">
+                    <div class="ui middle aligned two column grid">
+                        <div class="column">
+                            <h3 class="ui header white">时间线</h3>
+                        </div>
+                        <div class="right aligned column">
+                            共<h2 class="ui  header m-inline-block m-text-thin" th:text="${blogNum}">124</h2>篇博客
+                        </div>
+                    </div>
+                </div>
+
+                <th:block th:each="item:${archives}">
+                    <!--年份-->
+                    <h3 class="ui center aligned  header" style="color: white" th:text="${item.key}">2020</h3>
+                    <!--对应年份的博客-->
+                    <!--/*-->
+                    <!--<div class="ui fluid vertical menu">-->
+                        <!--&lt;!&ndash;每一篇博客&ndash;&gt;-->
+                        <!--<a href="#" target="_blank" class="item" th:each="blog:${item.value}" th:href="@{/blog/{id}(id=${blog.id})}">-->
+                            <!--&lt;!&ndash;item下如果有两个标签,就会一左一右的分开&ndash;&gt;-->
+                            <!--<span>-->
+                                <!--<i class=" mini black circle m-margin-right-large icon" ></i>-->
+                                <!--<span th:text="${blog.title}">Java</span>-->
+                                <!--<div class="ui black basic left pointing label m-padded-tiny" th:text="${#dates.format(blog.updateTime,'MM月dd日')}">9月03</div>-->
+                            <!--</span>-->
+                            <!--<div class="ui black label m-padded-small " th:text="${blog.flag}">原创</div>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--*/-->
+
+                    <div class="ui segment">
+                        <div class="ui middle aligned column grid" th:each="blog:${item.value}">
+                            <!--每一篇博客-->
+                            <a class="fourteen wide column m-black" href="#" target="_blank"  th:href="@{/blog/{id}(id=${blog.id})}">
+                            <span>
+                                <i class=" mini black circle m-margin-right-large icon" ></i>
+                                <span th:text="${blog.title}">Java</span>
+                                <div class="ui black basic left pointing label m-padded-tiny" th:text="${#dates.format(blog.createTime,'MM月dd日')}">9月03</div>
+                            </span>
+                            </a>
+
+                            <div class="two wide right aligned column">
+                                <div class="ui black label m-padded-small " th:text="${blog.flag}">原创</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </th:block>
+            </div>
+            <!--右侧热门文章、最新文章，最新推荐、分类和标签-->
+            <div  class="four wide column animate__animated animate__fadeInDown">
+                <!--热门文章-->
+                <div class="ui segments ">
+                    <!--灰色头部-->
+                    <div class="ui secondary segment">
+                        <i class="hotjar icon"></i>热门文章
+                    </div>
+                    <!--文章列表-->
+                    <div class="ui  segment" th:each="hotBlog:${hotBlogs}" >
+                        <a href="#" target="_blank" class="m-black" th:text="${hotBlog.title}" th:href="@{/blog/{id}(id=${hotBlog.id})}">你真的了解Java序列化吗？</a>
+                        <i class="eye mini icon " ></i>
+                        <span style="font-weight:lighter;font-size:smaller;margin-left:5px" th:text="${hotBlog.viewTimes}">955</span>
+                    </div>
+                    <!--/*-->
+                    <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                        <i class="eye mini icon " ></i>
+                        <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                    </div>
+                    <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                        <i class="eye mini icon " ></i>
+                        <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                    </div>
+                    <!--*/-->
+
+                </div>
+                <!--最新文章-->
+                <div class="ui segments ">
+                    <!--灰色头部-->
+                    <div class="ui secondary segment">
+                        <i class="bookmark icon"></i>最新文章
+                    </div>
+                    <!--文章列表-->
+                    <div class="ui  segment" th:each="newBlog:${newBlogs}" >
+                        <a href="#" target="_blank" class="m-black" th:text="${newBlog.title}" th:href="@{/blog/{id}(id=${newBlog.id})}">你真的了解Java序列化吗？</a>
+                        <i class="calendar outline icon " ></i>
+                        <span style="font-weight:lighter;font-size:smaller" th:text="${#dates.format(newBlog.createTime,'yyyy-MM-dd')}">955</span>
+                    </div>
+                    <!--/*-->
+                    <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                        <i class="eye mini icon " ></i>
+                        <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                    </div>
+                    <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                        <i class="eye mini icon " ></i>
+                        <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                    </div>
+                    <!--*/-->
+                </div>
+                <!--博主推荐-->
+                <div class="ui segments ">
+                    <!--灰色头部-->
+                    <div class="ui secondary segment">
+                        <i class="thumbs up outline icon"></i>博主推荐
+                    </div>
+                    <!--文章列表-->
+                    <div class="ui  segment" th:each="recommendedBlog:${recentRecommendedBlogs}">
+                        <a href="#" target="_blank" class="m-black " th:text="${recommendedBlog.title}" th:href="@{/blog/{id}(id=${recommendedBlog.id})}">你真的了解Java序列化吗？</a>
+                    </div>
+                    <!--/*-->
+                    <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                    </div>
+                    <div class="ui segment">
+                        <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                    </div>
+                    <!--*/-->
+
+                </div>
+                <!--Top分类-->
+                <div class="ui segments">
+                    <!--/*-->
+                    <!--secondary segment会带有灰色背景-->
+                    <!--*/-->
+                    <!--分类专栏标题-->
+                    <div class="ui secondary segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="idea icon"></i>分类专栏
+                            </div>
+                            <div class="right aligned column">
+                                <a href="#" target="_blank" class="m-black" th:href="@{/types/}">more <i class="angle double right icon m-black"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--top分类名称及数量-->
+                    <div class="ui  segment" >
+                        <!--/*-->
+                        <!--fluid代表填充外层容器-->
+                        <!--*/-->
+                        <div class="ui fluid vertical menu" >
+                            <a href="#" class="item" th:each="type:${topTypes}" th:href="@{/types/{id}(id=${type.id})}" target="_blank">
+                                <span th:text="${type.typeName}">Java</span>
+                                <!--/*-->
+                                <!--获取type中blogs集合的长度-->
+                                <!--*/-->
+                                <div class="ui  black basic left pointing label" th:text="${#arrays.length(type.blogs)}">13</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--Top标签-->
+                <div class="ui segments ">
+                    <!--标签灰色头部-->
+                    <div class="ui secondary segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="tags icon"></i>标签云
+                            </div>
+                            <div class="right aligned column">
+                                <a href="#" target="_blank" class="m-black" th:href="@{/tags/}">more <i class="angle double right icon m-black"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--每一个标签-->
+                    <div class="ui  segment">
+                        <a href="#" target="_blank" class="ui label  m-margin-tb-tiny" th:each="tag:${topTags}" th:href="@{/tags/{id}(id=${tag.id})}">
+                            <span th:text="${tag.tagName}">序列化</span>
+                            <div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
+                        </a>
+                        <!--/*-->
+                        <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">反射
+                            <div class="detail">16</div>
+                        </a>
+                        <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">继承
+                            <div class="detail">7</div>
+                        </a>
+                        <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">多态
+                            <div class="detail">5</div>
+                        </a>
+                        <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">重载
+                            <div class="detail">3</div>
+                        </a>
+                        <!--*/-->
+                    </div>
+                </div>
+                <!--/*-->
+                <!--分割线-->
+                <!--<h4 class="ui horizontal divider header m-margin-top-large">关注我</h4>-->
+                <!--二维码，centered实现元素水平居中-->
+                <!--<div class="ui centered card " style="width: 11em;">-->
+                <!--<img src="../static/images/myPhoto.jpg" th:src="@{/images/myPhoto.jpg}" alt="" class="ui rounded image" >-->
+                <!--</div>-->
+                <!--*/-->
+            </div>
+
+        </div>
+        <!--工具条-->
+        <th:block th:replace="_fragments::publicToolBar"></th:block>
+    </div>
+<!--底部-->
+    <footer th:replace="_fragments::footer"></footer>
+    <!--/*/<th:block th:replace="_fragments :: javaScript">/*/-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <!--/*/</th:block>/*/-->
+<script>
+    $('#mobileMenu').click(function(){
+//        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    /* 鼠标点击特效 */
+    $("body").click(function(e) {
+        //随机选择文字
+        var a_idx = Math.floor((Math.random() * 11));
+        var a = new Array(
+            "富强", "民主", "文明", "和谐", "自由", "平等",
+            "公正" ,"法治", "爱国", "敬业", "诚信", "友善"
+        );
+        // 随机产生文字颜色
+        // var color1 = Math.floor((Math.random() * 255));
+        // var color2 = Math.floor((Math.random() * 255));
+        // var color3 = Math.floor((Math.random() * 255));
+
+        var $i = $("<span />").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+            y = e.pageY;
+        $i.css({　　　　　　//文字样式--------------------------
+            "z-index": 9999999999999 ,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-family":"mmm",
+            "fontSize":Math.floor((Math.random() * 22)+6),
+            "font-weight": "bold",
+            // "color": "rgb("+color1+","+color2+","+color3+")",
+            "color": "white",
+            "-webkit-user-select":"none",
+            "-moz-user-select":"none",
+            "-ms-user-select":"none",
+            "user-select":"none",
+        });
+        $("body").append($i);
+        $i.animate({
+                "top": y - 200,  //点击后文字上升高度
+                "opacity": 0    //透明度
+            },
+            1000,
+            function() {
+                $i.remove();//文字消失时间
+            });
+    });
+</script>
+</body>
+</html>

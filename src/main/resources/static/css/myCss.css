@@ -1,0 +1,343 @@
+html, body {
+    background: #1b1c1d !important;
+    margin: 0 !important;
+}
+canvas {
+    position: fixed !important;
+}
+/*webUploader样式*/
+.uploader-image-container {
+    position: relative;
+    padding: 15px 15px 15px;
+    margin: 15px 0;
+    background-color: #fafafa;
+    box-shadow: inset 0 3px 6px rgb(0 0 0 / 5%);
+    border-color: #e5e5e5 #eee #eee;
+    border-style: solid;
+    border-width: 1px 0;
+}
+.file-item .error {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background: red;
+    color: white;
+    text-align: center;
+    height: 20px;
+    font-size: 10px;
+    line-height: 20px;
+}
+.file-item .success {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    background: darkseagreen;
+    color: white;
+    text-align: center;
+    height: 20px;
+    font-size: 10px;
+    line-height: 20px;
+}
+.file-item .info {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    right:0px;
+    height: 20px;
+    line-height: 20px;
+    text-indent: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    z-index: 10;
+}
+.uploader-list {
+    width: 100%;
+    overflow: hidden;
+}
+#uploader-image .thumbnail {
+    width: 110px;
+    height: 110px;
+}
+.file-item {
+    float: left;
+    position: relative;
+    margin: 0 20px 12px 0;
+    /*padding: 4px;*/
+}
+#uploader-image .thumbnail img {
+    width: 100%;
+}
+
+/*editormd弹出对话框的高度，默认的高度有问题*/
+.editormd-dialog {
+    height: auto !important;
+}
+.m-horizontal-center{
+    text-align: center !important;
+}
+.animate__fadeInDown {
+    --animate-duration: 2.5s !important;
+}
+.animate__fadeInRight {
+    --animate-duration: 1s !important;
+}
+.animate__fadeInUp {
+    --animate-duration: 2.5s !important;
+}
+.animate__fadeInLeft {
+    --animate-duration: 1s !important;
+}
+.m-margin-bottom-zero{
+    margin-bottom:0 !important;
+}
+.m-margin-bottom-tiny{
+    margin-bottom:0.3em !important;
+}
+.m-margin-bottom-small{
+    margin-bottom:0.5em !important;
+}
+.m-margin-bottom{
+    margin-bottom:1em !important;
+}
+.m-margin-bottom-large{
+    margin-bottom: 2em !important;
+}
+.m-margin-bottom-big{
+    margin-bottom: 3em !important;
+}
+.m-margin-bottom-huge{
+    margin-bottom: 4em !important;
+}
+.m-margin-bottom-massive{
+    margin-bottom: 5em !important;
+}
+.m-margin-top-small{
+      margin-top: 0.5em !important;
+}
+.m-margin-top{
+    margin-top: 1em !important;
+}
+.m-margin-top-large{
+    margin-top: 2em !important;
+}
+.m-margin-top-massive{
+    margin-top: 10em !important;
+}
+.m-margin-left-small{
+    margin-left: 0.5em !important;
+}
+.m-margin-left{
+    margin-left: 1em !important;
+}
+.m-margin-left-large{
+    margin-left: 2em !important;
+}
+.m-margin-left-big{
+    margin-left: 3em !important;
+}
+.m-margin-left-huge{
+    margin-left: 4em !important;
+}
+.m-margin-left-massive{
+    margin-left: 5em !important;
+}
+
+.m-margin-right-small{
+    margin-right: 0.5em !important;
+}
+.m-margin-right{
+    margin-right: 1em !important;
+}
+.m-margin-right-large{
+    margin-right: 2em !important;
+}
+
+.m-margin-tb-tiny{
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em !important;
+}
+.m-padded-mini{
+    padding:0.2em !important;
+}
+.m-padded-tiny{
+    padding:0.3em !important;
+}
+.m-padded-small{
+    padding:0.5em !important;
+}
+.m-padded{
+    padding:1em !important;
+}
+.m-padded-large{
+    padding:2em !important;
+}
+.m-padded-big{
+    padding:3em !important;
+}
+.m-padded-huge{
+    padding:4em !important;
+}
+.m-padded-massive{
+    padding:5em !important;
+}
+.m-padded-lr-responsive{
+    padding-left: 2em !important;
+    padding-right: 2em !important;
+}
+.m-padded-tb-mini{
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+.m-padded-tb-tiny{
+    padding-top: 0.3em !important;
+    padding-bottom: 0.3em !important;
+}
+.m-padded-tb-small{
+    padding-top: 0.5em !important;
+    padding-bottom: 0.5em !important;
+}
+.m-padded-tb{
+    padding-top: 1em !important;
+    padding-bottom: 1em !important;
+}
+.m-padded-tb-large{
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+}
+.m-padded-tb-big{
+    padding-top: 3em !important;
+    padding-bottom: 3em !important;
+}
+.m-padded-tb-huge{
+    padding-top: 4em !important;
+    padding-bottom: 4em !important;
+}
+.m-padded-tb-massive{
+    padding-top: 5em !important;
+    padding-bottom: 5em !important;
+}
+/*文本的一些设置*/
+.m-text{
+    font-weight: 300 !important;
+    letter-spacing: 1px !important;
+    line-height:1.8;
+}
+.m-text-thin{
+    font-weight: 300 !important;
+}
+.m-text-strong{
+    font-weight: 900 !important;
+}
+/*字间距*/
+.m-text-spaced{
+    letter-spacing: 1px !important;
+}
+/*行间距*/
+.m-text-lined{
+    /*1.8倍的行间距*/
+    line-height:1.8;
+}
+.m-opacity-mini{
+    opacity: 0.8 !important;
+}
+.m-opacity-tiny{
+    opacity: 0.6 !important;
+}
+/*位置*/
+.m-right-top{
+    position: absolute !important;
+    top:0 !important;
+    right:0 !important;
+}
+.m-right-bottom{
+    bottom:0 !important;
+    right:0 !important;
+}
+.m-fixed{
+    position: fixed !important;
+    z-index: 10 !important;
+}
+/*显示的一些属性*/
+.m-inline-block{
+    display: inline-block !important;
+}
+.m-container{
+    max-width: 72em !important;
+    margin:auto !important;
+}
+.m-container-small{
+    max-width: 60em !important;
+    margin:auto !important;
+}
+/*颜色*/
+.m-black{
+    color: #333 !important;
+}
+/*阴影*/
+.m-shadow-small{
+    -webkit-box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+/*移动端与web端的适配*/
+.m-hideOrShow{
+    /*默认是不显示*/
+    display: none !important;
+}
+.m-mobile-margin-left{
+    /*index导航在web离左边有距离，在移动端没有*/
+    margin-left: 5em !important;
+}
+.m-mobile-margin-right{
+    /*index搜索框在web离右边有距离，在移动端没有*/
+    margin-right: 10em !important;
+}
+.m-mobile-margin-top{
+    /*页面主体部分在web和移动端和导航的距离不同*/
+    margin-top: 8em !important;
+}
+.m-active{
+    color: #fff!important;
+    border-bottom-style: solid !important;
+    border-color: white !important;
+}
+/*当屏幕宽度小于768的时候*/
+@media screen and (max-width: 768px){
+    .m-active{
+        background: rgba(255,255,255,.15) !important;
+        color: #fff!important;
+        border-bottom-style: none !important;
+    }
+    .m-mobile-margin-top{
+        margin-top: 4em !important;
+    }
+    .m-mobile-margin-left{
+        margin-left: 2em !important;
+    }
+    .m-mobile-margin-right{
+        margin-right: 0em !important;
+    }
+    .m-mobile-hide{
+        display: none !important;
+    }
+    .m-hideOrShow{
+        /*web端不显示移动端显示*/
+        display: block !important;
+    }
+    .m-padded-lr-responsive{
+        padding-left: 0em !important;
+        padding-right: 0em !important;
+    }
+    .m-mobile-full{
+        width:100% !important;
+    }
+    .m-mobile-lr-clear{
+        padding-left: 0em !important;
+        padding-right: 0em !important;
+    }
+}

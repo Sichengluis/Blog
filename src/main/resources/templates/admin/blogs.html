@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="admin/_fragments::head(~{::title})">
+    <meta charset="UTF-8">
+    <!--适配移动端-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../static/css/myCss.css" th:href="@{/css/myCss.css}">
+</head>
+<body>
+<!--导航-->
+
+    <nav th:replace="admin/_fragments::menu(1)" ><!--inverted颜色反转--></nav>
+
+    <!--二级导航-->
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="left menu">
+                <a href="#" th:href="@{/admin/blogs/toSaveOrUpdateBlog/}" class="item">新增</a>
+                <a href="#" th:href="@{/admin/blogs}" class="black active item">列表</a>
+            </div>
+        </div>
+    </div>
+<!--动态背景-->
+<canvas ></canvas>
+    <!--中间内容-->
+    <!--container会根据浏览器的不同，自动设置边距，更好的相应移动端-->
+    <div class="ui container m-mobile-margin-top " style="position: relative !important;">
+        <!--提示信息-->
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+            <i class="close icon"></i>
+            <div class="header">提示：</div>
+            <p th:text="${message}"></p>
+        </div>
+        <!--表单-->
+        <div  class="ui secondary segment form">
+            <input type="hidden" name="currentPage">
+            <div class="inline fields">
+                <!--标题-->
+                <div class="field">
+                    <input type="text" name="title" placeholder="标题">
+                </div>
+                <!--分类-->
+                <div class="field">
+                    <div class="ui labeled action input">
+                        <div class="ui type selection dropdown">
+                            <input type="hidden" name="typeId">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">分类</div>
+                            <div class="menu">
+                                <div th:each="type:${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.typeName}">分类1</div>
+                                <!--/*-->
+                                <!--/**/代表在thymeleaf模板下注释掉，但是在静态html页面还是会显示-->
+                                <div class="item" data-value="2">分类2</div>
+                                <div class="item" data-value="3">分类3</div>
+                                <div class="item" data-value="4">分类4</div>
+                                <!--*/-->
+                            </div>
+                        </div>
+                        <button class="ui compact button" id="clearBtn">清除</button>
+                    </div>
+
+                </div>
+                <!--是否推荐-->
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="recommend" name="recommend">
+                        <!--label的for属性绑定checkbox的id属性，可以做到点击label的文字同时达到点击checkBox的效果-->
+                        <label for="recommend">推荐</label>
+                    </div>
+                </div>
+                <!--搜索按钮-->
+                <div class="field">
+                    <button type="button" id="searchBtn" class=" ui mini black basic button"><i class="search icon"></i>搜索</button>
+                </div>
+            </div>
+        </div>
+        <!--表格-->
+        <div id="table-container">
+            <!--表格主体-->
+            <table th:fragment="blogList" class="ui compact black table">
+                <thead>
+                    <tr>
+                        <th class="one wide"></th>
+                        <th class="five wide">标题</th>
+                        <th class="one wide">分类</th>
+                        <th class="one wide">推荐</th>
+                        <th class="one wide">状态</th>
+                        <th class="two wide">创建时间</th>
+                        <th class="two wide">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="blog,index:${page.content}">
+                        <td th:text="${index.count}">1</td>
+                        <td >
+                            <a href="#" th:text="${blog.title}" th:href="@{/blog/{id}(id=${blog.id})}" class="m-black">npm ERR! cb() never called! npm ERR! This is an error with npm itself.错误解决办法</a>
+                        </td>
+                        <td th:text="${blog.type.typeName}">Npm</td>
+                        <td th:text="${blog.recommend}?'是':'否'">是</td>
+                        <td th:text="${blog.published}?'已发布':'未发布'">已发布</td>
+                        <td th:text="${#dates.format(blog.createTime,'yyyy-MM-dd HH:mm:ss')}">2020-12-24-21:14</td>
+                        <td>
+                            <a href="#" th:href="@{/admin/blogs/toSaveOrUpdateBlog/{id}(id=${blog.id})}" class="ui mini black basic button">编辑</a>
+                            <a href="#" th:href="@{/admin/blogs/delete/{id}(id=${blog.id})}" class="ui mini black button">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="7">
+                            <div class="ui right floated mini pagination menu" th:if="${page.totalPages}>1">
+                                <a onclick="changePage(this)" th:attr="data-page=0" class="icon item" >
+                                    <i class="angle double left icon"></i>
+                                </a>
+                                <!--设置不是第一页才有上一页选项，不是最后一页才有下一页选项-->
+                                <!--自定义data-page属性并通过thymeleaf解析-->
+
+                                <a onclick="changePage(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
+                                <a onclick="changePage(this)" th:attr="data-page=${page.number}+1" class="item" th:unless="${page.last}">下一页</a>
+                                <a onclick="changePage(this)" th:attr="data-page=${page.totalPages}-1" class="icon item" >
+                                    <i class="angle double right icon"></i>
+                                </a>
+                            </div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+<!--底部-->
+<br>
+<br>
+<br>
+    <footer th:replace="admin/_fragments::footer"></footer>
+
+<!--利用thymeleaf模板引入js-->
+<!--/*/<th:block th:replace="admin/_fragments::javaScript">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="../static/lib/prism/prism.js"></script>
+<script src="../static/lib/tocbot/tocbot.min.js"></script>
+<script src="../static/lib/qrcode/qrcode.min.js"></script>
+<script src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('#mobileMenu').click(function(){
+//        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    $('.ui.dropdown').dropdown({
+        on:'hover'
+    });
+    function changePage(obj){
+
+        $("[name='currentPage']").val($(obj).data("page"));//获取自定义的data-page属性值并赋值给表单的隐藏域currentPage，
+        loadData();//发送请求重新加载表格数据
+    }
+    function loadData(){
+        //发送请求动态渲染#table-container中的数据
+        $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
+            title : $("[name='title']").val(),
+            typeId : $("[name='typeId']").val(),
+            recommend : $("[name='recommend']").prop('checked'),
+            page : $("[name='currentPage']").val()//表单的隐藏域
+        });
+    }
+    $("#searchBtn").click(function () {
+        $("[name='currentPage']").val(0);
+        loadData();//发送请求重新加载表格数据
+    });
+    //消息提示关闭初始化
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+    $('#clearBtn')
+        .on('click', function() {
+            $('.ui.type.selection.dropdown')
+                .dropdown('clear')
+            ;
+        })
+    ;
+</script>
+</body>
+</html>

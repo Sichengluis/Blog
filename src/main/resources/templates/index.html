@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!--/*-->
+<!--页面的头部，顶部导航、底部、js都是通过thymeleaf的fragment动态引入的，直接访问静态页面看不到-->
+<!--*/-->
+<head th:replace="_fragments::head(~{::title})">
+    <!--/*-->
+    <!--~{::title}代表把整个title标签即<title>首页</title>作为参数传递了过去-->
+    <!--*/-->
+    <meta charset="UTF-8">
+    <!--/*-->
+    <!--适配移动端-->
+    <!--*/-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="../static/css/myCss.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/typo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="../static/lib/prism/prism.css">
+    <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css">
+    <style>
+    </style>
+</head>
+<body>
+<!--导航-->
+<nav th:replace="_fragments::menu(1)" ></nav>
+<!--动态背景-->
+<canvas ></canvas>
+<div id="banner" class="ui inverted   padded  fluid segment m-margin-bottom-massive  animate__animated" style="width:100% !important;height: 100% !important;display: flex !important;z-index: 1 !important;">
+        <div class="ui inverted  masthead center aligned padded  segment" style="margin: auto !important;">
+            <div class="ui text container">
+                <h1 class="ui inverted  header animate__animated animate__zoomInDown" style="font-size: 4em;font-weight: lighter" >不要因为忙碌</h1>
+                <h2 class="ui inverted  header animate__animated animate__zoomInDown" style="font-size: 2em;font-weight: lighter;animation-delay: 0.6s;">而忘了享受生活</h2>
+                <div class="ui huge inverted button m-margin-top animate__animated animate__backInLeft" style="animation-delay: 1.2s;" id="toContentButton" >开始  <i class="cubes icon m-margin-left-small"></i></div>
+            </div>
+        </div>
+    </div>
+<!--中间内容-->
+<!--/*-->
+<!--container会根据浏览器的不同，自动设置边距-->
+<!--*/-->
+<div class="ui container m-mobile-margin-top animate__animated" id="wrap" >
+    <!--/*-->
+    <!--grid中是中间内容的布局,stackable代表适配移动端，意思是根据手机屏幕大小去适应，去堆叠-->
+    <!--*/-->
+    <div class="ui stackable grid" >
+        <!--个人名片-->
+        <div class="four wide column  ">
+            <div class="ui top attached segment">
+                <div class="ui header">Sichengluis</div>
+            </div>
+            <!--个人介绍-->
+            <div class="ui attached segment">
+                <div class="ui inverted link list">
+                    <div class="m-horizontal-center item" >
+                        <img src="../static/images/myPhoto.jpg" th:src="@{/images/myPhoto.jpg}" class="ui rounded image" alt="" style="width: 110px;">
+                    </div>
+                    <div class="m-black item m-horizontal-center" >Hduer&Developer</div>
+                    <div class="m-horizontal-center m-black item " >热爱编程，喜欢折腾</div>
+                    <div class="item m-horizontal-center" >
+                        <div class="m-black item">
+                            <i class="map marker icon"></i><span th:text="浙江·杭州">浙江·杭州</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--个人标签-->
+            <div class="ui attached segment">
+                <div class="ui black basic left pointing label">编程</div>
+                <div class="ui black basic left pointing label">音乐</div>
+                <div class="ui black basic left pointing label">运动</div>
+            </div>
+            <!--技术标签-->
+            <div class="ui attached segment">
+                <div class="ui black  label m-margin-tb-tiny">Java</div>
+                <div class="ui black label m-margin-tb-tiny">SpringBoot</div>
+                <div class="ui black label m-margin-tb-tiny">Thymeleaf</div>
+                <div class="ui black  label m-margin-tb-tiny">Vue</div>
+                <div class="ui black  label m-margin-tb-tiny">React</div>
+                <div class="ui black  label m-margin-tb-tiny">RN</div>
+                <div class="ui black  label m-margin-tb-tiny">MySQL</div>
+                <div class="ui black  label m-margin-tb-tiny">Oracle</div>
+                <div class="ui black  label m-margin-tb-tiny">Git</div>
+
+            </div>
+            <!--联系方式-->
+            <div class="ui bottom attached segment">
+                <a href="javascript:void(0)" id="github" class="ui circular icon button" data-content="Sichengluis" data-position="bottom center">
+                    <i class="github icon"></i>
+                </a>
+                <a href="javascript:void(0)" id="wechatContact" class="ui circular icon button">
+                    <i class="weixin icon"></i>
+                </a>
+                <a href="javascript:void(0)" id="qqContact" class="ui circular icon button" >
+                    <i class="qq icon"></i>
+                </a>
+            </div>
+            <div id="wechatContactQR" class="ui flowing popup transition hidden">
+                <img src="../static/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui rounded image" style="width: 120px">
+            </div>
+            <div id="qqContactQR" class="ui flowing popup transition hidden">
+                <img src="../static/images/qq.jpg" th:src="@{/images/qq.jpg}" alt="" class="ui rounded image" style="width: 120px">
+            </div>
+        </div>
+        <!--文章列表-->
+        <div class="eight wide column  ">
+            <!--文章列表的头部-->
+            <div class="ui top attached segment">
+                <div class="ui middle aligned two column grid">
+                    <div class="column">
+                        <h3 class="ui header white">博客</h3>
+                    </div>
+                    <div class="right aligned column">
+                        共 <h2 class="ui  header m-inline-block m-text-thin" th:text=" ${page.totalElements} ">14</h2> 篇
+                    </div>
+                </div>
+            </div>
+            <!--文章列表的主体-->
+            <div id="leftBlogList" th:fragment="blogList" class="animate__animated">
+                <!--文章-->
+                <div class="ui attached segment" >
+                    <!--每一篇文章-->
+                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear" th:each="blog:${page.content}">
+                        <!--上边文章标题、描述、图片-->
+                        <div class="row">
+                            <div class="ui  mobile reversed stackable grid" >
+                                <!--文章标题、描述-->
+                                <div class=" nine wide column">
+                                    <p class="ui header" style="word-wrap: break-word;word-break: break-all;"><a href="#" class="m-black" th:text="${#strings.abbreviate(blog.title,50)}"  th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">你真的认为序列化很简单吗？</a></p>
+                                    <p class="m-text" th:text="|${blog.description}...|">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
+                                </div>
+                                <!--右侧图片-->
+                                <div class=" seven wide column">
+                                    <a href="" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}">
+                                        <img src="https://picsum.photos/id/1004/800/600" th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image" >
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--下边时间 浏览量 分类-->
+                        <div class="row m-margin-top">
+                            <div class="ui stackable grid">
+                                <!--时间、浏览次数、分类-->
+                                <div class="nine wide column">
+                                    <div class="ui  horizontal link list">
+                                        <!--/*-->
+                                        <!--用户-->
+                                        <!--<div class="item">-->
+                                        <!--<img src="https://picsum.photos/id/1011/100/100" alt="" th:src="@{${blog.user.avatar}}" class="ui avatar image">-->
+                                        <!--<div class="content "><a href="#" class="m-text-strong" th:text="${blog.user.nickname}">李斯诚</a></div>-->
+                                        <!--</div>-->
+                                        <!--*/-->
+                                        <!--时间-->
+                                        <div class="item">
+                                            <i class="time icon"></i>
+                                            <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2020-12-19</span>
+                                        </div>
+                                        <!--浏览量-->
+                                        <div class="item">
+                                            <i class="eye icon"></i>
+                                            <span th:text="${blog.viewTimes}">955</span>
+                                        </div>
+                                        <!--文章标签-->
+                                        <!--<div class="item">-->
+                                        <!--<a href="#"  th:attr="data-id=${tag.id}" class="ui label m-padded-small" th:each="tag:${blog.tags}" th:text="${tag.tagName}" th:classappend="${tag.id==activeTagId}?'black':''">序列化</a>-->
+                                        <!--</div>-->
+                                        <!--文章分类-->
+                                        <div class="item">
+                                            <i class="sticky note icon"></i>
+                                            <span th:text="${blog.type.typeName}">分类</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/*-->
+                    <div class="ui padded vertical segment m-padded-tb-large">
+                        <div class="ui mobile reversed stackable grid">
+                            <div class=" eleven wide column">
+                                <h3 class="ui header">你真的认为序列化很简单吗？</h3>
+                                <p class="m-text">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
+                                <div class="ui stackable grid">
+                                    <div class="eleven wide column">
+                                        <div class="ui small horizontal link list">
+                                            <div class="item">
+                                                <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image">
+                                                <div class="content "><a href="#" class="m-text-strong">李斯诚</a></div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="time icon"></i>2020-12-19
+                                            </div>
+                                            <div class="item">
+                                                <i class="eye icon"></i>955
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="right aligned five wide column">
+                                        <a href="#" target="_blank" class="ui black basic left pointing label m-padded-tiny ">序列化</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--右侧图片-->
+                            <div class=" five wide column">
+                                <a href="" target="_blank">
+                                    <img src="https://picsum.photos/id/1004/800/600" alt="" class="ui rounded image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui padded vertical segment m-padded-tb-large">
+                        <div class="ui mobile reversed stackable grid">
+                            <div class=" eleven wide column">
+                                <h3 class="ui header">你真的认为序列化很简单吗？</h3>
+                                <p class="m-text">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
+                                <div class="ui stackable grid">
+                                    <div class="eleven wide column">
+                                        <div class="ui small horizontal link list">
+                                            <div class="item">
+                                                <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image">
+                                                <div class="content "><a href="#" class="m-text-strong">李斯诚</a></div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="time icon"></i>2020-12-19
+                                            </div>
+                                            <div class="item">
+                                                <i class="eye icon"></i>955
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="right aligned five wide column">
+                                        <a href="#" target="_blank" class="ui black basic left pointing label m-padded-tiny ">序列化</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--右侧图片-->
+                            <div class=" five wide column">
+                                <a href="" target="_blank">
+                                    <img src="https://picsum.photos/id/1004/800/600" alt="" class="ui rounded image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui padded vertical segment m-padded-tb-large">
+                        <div class="ui mobile reversed stackable grid">
+                            <div class=" eleven wide column">
+                                <h3 class="ui header">你真的认为序列化很简单吗？</h3>
+                                <p class="m-text">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
+                                <div class="ui stackable grid">
+                                    <div class="eleven wide column">
+                                        <div class="ui small horizontal link list">
+                                            <div class="item">
+                                                <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image">
+                                                <div class="content "><a href="#" class="m-text-strong">李斯诚</a></div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="time icon"></i>2020-12-19
+                                            </div>
+                                            <div class="item">
+                                                <i class="eye icon"></i>955
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="right aligned five wide column">
+                                        <a href="#" target="_blank" class="ui black basic left pointing label m-padded-tiny ">序列化</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--右侧图片-->
+                            <div class=" five wide column">
+                                <a href="" target="_blank">
+                                    <img src="https://picsum.photos/id/1004/800/600" alt="" class="ui rounded image">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--*/-->
+                </div >
+                <!--文章列表的底部分页-->
+                <div class="ui bottom attached segment" th:if="${page.totalPages>1}">
+                    <div class="ui middle aligned two column grid">
+                        <div class="column">
+                            <a class="icon m-black"  href="#" onclick="prePage(this)" th:attr="data-page=0">
+                                <i class="angle double left icon"></i>
+                            </a>
+                            <a  class="ui mini black basic button"  th:unless="${page.first}" onclick="prePage(this)" th:attr="data-page=${page.number}-1">上一页</a>
+                        </div>
+                        <div class="right aligned column">
+                            <a  class="ui mini black basic button"  th:unless="${page.last}" onclick="nextPage(this)" th:attr="data-page=${page.number}+1" >下一页</a>
+                            <a  class="icon m-black"  href="#" onclick="nextPage(this)" th:attr="data-page=${page.totalPages}-1" >
+                                <i class="angle double right icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--右侧热门文章、最新文章，最新推荐、分类和标签-->
+        <div  class="four wide column " >
+            <!--热门文章-->
+            <div class="ui  segments ">
+                <!--灰色头部-->
+                <div class="ui secondary segment">
+                    <i class="hotjar icon"></i>热门文章
+                </div>
+                <!--文章列表-->
+                <div class="ui  segment" th:each="hotBlog:${hotBlogs}" >
+                    <a href="#" target="_blank" class="m-black" th:text="${hotBlog.title}" th:href="@{/blog/{id}(id=${hotBlog.id})}">你真的了解Java序列化吗？</a>
+                    <i class="eye mini icon " ></i>
+                    <span style="font-weight:lighter;font-size:smaller;margin-left:5px" th:text="${hotBlog.viewTimes}">955</span>
+                </div>
+                <!--/*-->
+                <div class="ui segment">
+                    <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                    <i class="eye mini icon " ></i>
+                    <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                </div>
+                <div class="ui segment">
+                    <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                    <i class="eye mini icon " ></i>
+                    <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                </div>
+                <!--*/-->
+
+            </div>
+            <!--最新文章-->
+            <div class="ui segments ">
+                <!--灰色头部-->
+                <div class="ui secondary segment">
+                    <i class="bookmark icon"></i>最新文章
+                </div>
+                <!--文章列表-->
+                <div class="ui  segment" th:each="newBlog:${newBlogs}" >
+                    <a href="#" target="_blank" class="m-black" th:text="${newBlog.title}" th:href="@{/blog/{id}(id=${newBlog.id})}">你真的了解Java序列化吗？</a>
+                    <i class="calendar outline icon " ></i>
+                    <span style="font-weight:lighter;font-size:smaller" th:text="${#dates.format(newBlog.createTime,'yyyy-MM-dd')}">955</span>
+                </div>
+                <!--/*-->
+                <div class="ui segment">
+                    <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                    <i class="eye mini icon " ></i>
+                    <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                </div>
+                <div class="ui segment">
+                    <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                    <i class="eye mini icon " ></i>
+                    <span style="font-weight:lighter;font-size:smaller;margin-left:5px">955</span>
+                </div>
+                <!--*/-->
+            </div>
+            <!--博主推荐-->
+            <div class="ui segments ">
+                <!--灰色头部-->
+                <div class="ui secondary segment">
+                    <i class="thumbs up outline icon"></i>博主推荐
+                </div>
+                <!--文章列表-->
+                <div class="ui  segment" th:each="recommendedBlog:${recentRecommendedBlogs}">
+                    <a href="#" target="_blank" class="m-black " th:text="${recommendedBlog.title}" th:href="@{/blog/{id}(id=${recommendedBlog.id})}">你真的了解Java序列化吗？</a>
+                </div>
+                <!--/*-->
+                <div class="ui segment">
+                    <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                </div>
+                <div class="ui segment">
+                    <a href="#" target="_blank" class="m-black">你真的了解Java序列化吗？</a>
+                </div>
+                <!--*/-->
+
+            </div>
+            <!--Top分类-->
+            <div class="ui segments">
+                <!--/*-->
+                <!--secondary segment会带有灰色背景-->
+                <!--*/-->
+                <!--分类专栏标题-->
+                <div class="ui secondary segment">
+                    <div class="ui two column grid">
+                        <div class="column">
+                            <i class="idea icon"></i>分类专栏
+                        </div>
+                        <div class="right aligned column">
+                            <a href="#" target="_blank" class="m-black" th:href="@{/types/}">more <i class="angle double right icon m-black"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+                <!--top分类名称及数量-->
+                <div class="ui  segment" >
+                    <!--/*-->
+                    <!--fluid代表填充外层容器-->
+                    <!--*/-->
+                    <div class="ui fluid vertical menu" >
+                        <a href="#" class="item" th:each="type:${topTypes}" th:href="@{/types/{id}(id=${type.id})}" target="_blank">
+                            <span th:text="${type.typeName}">Java</span>
+                            <!--/*-->
+                            <!--获取type中blogs集合的长度-->
+                            <!--*/-->
+                            <div class="ui  black basic left pointing label" th:text="${#arrays.length(type.blogs)}">13</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--Top标签-->
+            <div class="ui segments ">
+                <!--标签灰色头部-->
+                <div class="ui secondary segment">
+                    <div class="ui two column grid">
+                        <div class="column">
+                            <i class="tags icon"></i>标签云
+                        </div>
+                        <div class="right aligned column">
+                            <a href="#" target="_blank" class="m-black" th:href="@{/tags/}">more <i class="angle double right icon m-black"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--每一个标签-->
+                <div class="ui  segment">
+                    <a href="#" target="_blank" class="ui label  m-margin-tb-tiny" th:each="tag:${topTags}" th:href="@{/tags/{id}(id=${tag.id})}">
+                        <span th:text="${tag.tagName}">序列化</span>
+                        <div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
+                    </a>
+                    <!--/*-->
+                    <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">反射
+                        <div class="detail">16</div>
+                    </a>
+                    <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">继承
+                        <div class="detail">7</div>
+                    </a>
+                    <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">多态
+                        <div class="detail">5</div>
+                    </a>
+                    <a href="#" target="_blank" class="ui  black basic  label m-margin-tb-tiny">重载
+                        <div class="detail">3</div>
+                    </a>
+                    <!--*/-->
+                </div>
+            </div>
+            <!--/*-->
+            <!--分割线-->
+            <!--<h4 class="ui horizontal divider header m-margin-top-large">关注我</h4>-->
+            <!--二维码，centered实现元素水平居中-->
+            <!--<div class="ui centered card " style="width: 11em;">-->
+            <!--<img src="../static/images/myPhoto.jpg" th:src="@{/images/myPhoto.jpg}" alt="" class="ui rounded image" >-->
+            <!--</div>-->
+            <!--*/-->
+        </div>
+    </div>
+    <!--工具条-->
+    <th:block th:replace="_fragments::publicToolBar"></th:block>
+</div>
+<!--底部-->
+<footer th:replace="_fragments::footer" ></footer>
+
+<!--/*-->
+<!--利用thymeleaf模板引入js-->
+<!--*/-->
+<!--/*/<th:block th:replace="_fragments :: javaScript">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="../static/lib/prism/prism.js"></script>
+<script src="../static/lib/tocbot/tocbot.min.js"></script>
+<script src="../static/lib/qrcode/qrcode.min.js"></script>
+<script src="../static/lib/waypoints/jquery.waypoints.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script th:inline="javascript">
+
+    $('#mobileMenu').click(function(){
+//        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+    /* 鼠标点击特效 */
+    $("body").click(function(e) {
+        //随机选择文字
+        var a_idx = Math.floor((Math.random() * 11));
+        var a = new Array(
+            "富强", "民主", "文明", "和谐", "自由", "平等",
+            "公正" ,"法治", "爱国", "敬业", "诚信", "友善"
+        );
+        // 随机产生文字颜色
+        // var color1 = Math.floor((Math.random() * 255));
+        // var color2 = Math.floor((Math.random() * 255));
+        // var color3 = Math.floor((Math.random() * 255));
+
+        var $i = $("<span />").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        var x = e.pageX,
+            y = e.pageY;
+        $i.css({　　　　　　//文字样式--------------------------
+            "z-index": 9999999999999 ,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-family":"mmm",
+            "fontSize":Math.floor((Math.random() * 22)+6),
+            "font-weight": "bold",
+            // "color": "rgb("+color1+","+color2+","+color3+")",
+            "color": "white",
+            "-webkit-user-select":"none",
+            "-moz-user-select":"none",
+            "-ms-user-select":"none",
+            "user-select":"none",
+        });
+        $("body").append($i);
+        $i.animate({
+                "top": y - 200,  //点击后文字上升高度
+                "opacity": 0    //透明度
+            },
+            1000,
+            function() {
+                $i.remove();//文字消失时间
+            });
+    });
+    // banner的开始按钮动画
+    $('#toContentButton').click(function () {
+        const animateElement = document.querySelector('#banner');
+        animateElement.classList.add('animate__zoomOutDown');
+        animateElement.addEventListener('animationend', function (){
+            animateElement.classList.remove('animate__zoomOutDown');
+            $('#banner').css("display","none");
+            const Element = document.querySelector('#wrap');
+            Element.classList.add('animate__zoomInUp');
+            Element.addEventListener('animationend', function (){
+                Element.classList.remove('animate__zoomInUp');
+            });
+        });
+    });
+    // 联系方式弹出层
+    $('#github').popup()
+    $('#wechatContact').popup({
+        popup:$('#wechatContactQR.popup'),
+        //on:'click',//设置触发方式，默认是hover
+        position: 'bottom center'//弹出的位置
+    })
+    $('#qqContact').popup({
+        popup:$('#qqContactQR.popup'),
+        //on:'click',//设置触发方式，默认是hover
+        position: 'bottom center'//弹出的位置
+    })
+
+    //翻页时加载数据
+    function loadData(obj){
+        $("#leftBlogList").load(/*[[@{/changePage}]]*/"",{
+            page : $(obj).data("page")
+        });
+    }
+    // 翻页动画及翻页函数
+    function changePageAnimate(element,animate){
+        const animateElement = document.querySelector('#'+element);
+        animateElement.classList.add(animate);
+        animateElement.addEventListener('animationend', function (){
+            animateElement.classList.remove(animate);
+        });
+    }
+    function prePage(obj){
+        changePageAnimate('leftBlogList','animate__fadeInRight')
+        loadData(obj);
+    }
+    function nextPage(obj){
+        changePageAnimate('leftBlogList','animate__fadeInLeft')
+        loadData(obj);
+    }
+
+</script>
+</body>
+</html>
