@@ -131,9 +131,9 @@
                                     <p class="m-text" th:text="|${blog.description}...|">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
                                 </div>
                                 <!--右侧图片-->
-                                <div class=" seven wide column">
-                                    <a href="" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}">
-                                        <img src="https://picsum.photos/id/1004/800/600" th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image" >
+                                <div class=" seven wide column"  >
+                                    <a href="" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}" >
+                                        <img src="https://picsum.photos/id/1004/800/600" th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image" style="width: 16em !important;height:11em !important;">
                                     </a>
                                 </div>
                             </div>
