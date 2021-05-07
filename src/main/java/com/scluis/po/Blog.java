@@ -57,7 +57,7 @@ public class Blog {
     }
     public void initDescription(){
         String htmlContent= markdown2Html.convert(this.getContent());
-        this.description= html2PlainText.convert(htmlContent).substring(0,55);
+        this.description= html2PlainText.convert(htmlContent);
     }
     //1,2,3
     private String tagList2tagIds(List<Tag> tags) {

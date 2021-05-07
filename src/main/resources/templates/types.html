@@ -85,49 +85,56 @@
                         <!--*/-->
                         <!--每一篇文章-->
                         <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear" th:each="blog:${page.content}">
-                            <div class="ui  mobile reversed stackable grid" >
-                                <!--文章标题、描述、作者、时间、浏览次数、分类、标签-->
-                                <div class=" eleven wide column">
-                                    <h3 class="ui header"><a href="#" class="m-black" th:text="${blog.title}" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">你真的认为序列化很简单吗？</a></h3>
-                                    <p class="m-text" th:text="|${blog.description}...|">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
-                                    <div class="ui stackable grid">
-                                        <!--作者、时间、浏览次数、分类-->
-                                        <div class="row">
-                                            <div class="eleven wide column">
-                                                <div class="ui  horizontal link list">
-                                                    <div class="item">
-                                                        <img src="https://picsum.photos/id/1011/100/100" alt="" th:src="@{${blog.user.avatar}}" class="ui avatar image">
-                                                        <div class="content "><a href="#" class="m-text-strong" th:text="${blog.user.nickname}">李斯诚</a></div>
-                                                    </div>
-                                                    <div class="item">
-                                                        <i class="time icon"></i>
-                                                        <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2020-12-19</span>
-                                                    </div>
-                                                    <div class="item">
-                                                        <i class="eye icon"></i>
-                                                        <span th:text="${blog.viewTimes}">955</span>
-                                                    </div>
-                                                </div>
-
+                            <!--上边文章标题、描述、图片-->
+                            <div class="row">
+                                <div class="ui  mobile reversed stackable grid" >
+                                    <!--文章标题、描述-->
+                                    <div class=" eleven wide column">
+                                        <p class="ui header" style="word-wrap: break-word;word-break: break-all;"><a href="#" class="m-black" th:text="${#strings.abbreviate(blog.title,50)}"  th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">你真的认为序列化很简单吗？</a></p>
+                                        <p class="m-text" th:text="|${#strings.abbreviate(blog.content,150)}...|">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
+                                    </div>
+                                    <!--右侧图片-->
+                                    <div class=" five wide column"  >
+                                        <a href="" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}" >
+                                            <img src="https://picsum.photos/id/1004/800/600" th:src="@{${blog.firstPicture}}" alt="" class="ui fluid rounded image" style="width: 16em !important;height:11em !important;">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--下边时间 浏览量 分类-->
+                            <div class="row m-margin-top">
+                                <div class="ui stackable grid">
+                                    <!--时间、浏览次数、分类-->
+                                    <div class="nine wide column">
+                                        <div class="ui  horizontal link list">
+                                            <!--/*-->
+                                            <!--用户-->
+                                            <!--<div class="item">-->
+                                            <!--<img src="https://picsum.photos/id/1011/100/100" alt="" th:src="@{${blog.user.avatar}}" class="ui avatar image">-->
+                                            <!--<div class="content "><a href="#" class="m-text-strong" th:text="${blog.user.nickname}">李斯诚</a></div>-->
+                                            <!--</div>-->
+                                            <!--*/-->
+                                            <!--时间-->
+                                            <div class="item">
+                                                <i class="time icon"></i>
+                                                <span th:text="${#dates.format(blog.createTime,'yyyy-MM-dd')}">2020-12-19</span>
                                             </div>
+                                            <!--浏览量-->
+                                            <div class="item">
+                                                <i class="eye icon"></i>
+                                                <span th:text="${blog.viewTimes}">955</span>
+                                            </div>
+                                            <!--文章标签-->
+                                            <!--<div class="item">-->
+                                            <!--<a href="#"  th:attr="data-id=${tag.id}" class="ui label m-padded-small" th:each="tag:${blog.tags}" th:text="${tag.tagName}" th:classappend="${tag.id==activeTagId}?'black':''">序列化</a>-->
+                                            <!--</div>-->
                                             <!--文章分类-->
-                                            <div class="right aligned five wide column">
-                                                <a href="#" target="_blank" class="ui  basic left pointing label m-padded-tiny" th:text="${blog.type.typeName}" th:classappend="${blog.type.id==activeTypeId}?'black':''">序列化</a>
-                                            </div>
-                                        </div>
-                                        <!--文章标签-->
-                                        <div class="row">
-                                            <div class="column">
-                                                <a href="#"  th:attr="data-id=${tag.id}" class="ui label m-padded-small" th:each="tag:${blog.tags}" th:text="${tag.tagName}" th:classappend="${tag.id==activeTagId}?'black':''">序列化</a>
+                                            <div class="item">
+                                                <i class="sticky note icon"></i>
+                                                <span th:text="${blog.type.typeName}">分类</span>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--右侧图片-->
-                                <div class=" five wide column">
-                                    <a href="" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}">
-                                        <img src="https://picsum.photos/id/1004/800/600" th:src="@{${blog.firstPicture}}" alt="" class="ui rounded image">
-                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -128,7 +128,7 @@
                                 <!--文章标题、描述-->
                                 <div class=" nine wide column">
                                     <p class="ui header" style="word-wrap: break-word;word-break: break-all;"><a href="#" class="m-black" th:text="${#strings.abbreviate(blog.title,50)}"  th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">你真的认为序列化很简单吗？</a></p>
-                                    <p class="m-text" th:text="|${blog.description}...|">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
+                                    <p class="m-text" th:text="|${#strings.abbreviate(blog.content,55)}...|">序列化是把对象改成可以存到磁盘或通过网络发送到其它运行中的 Java 虚拟机的二进制格式的过程，并可以通过反序列化恢复对象状态。Java 序列化 API 给开发人员提供了一个标准机制：通过实现 java.io.Serializable 或者 java.io.Externalizable 接口，ObjectInputStream 及 ObjectOutputStream 处理对象序列化。</p>
                                 </div>
                                 <!--右侧图片-->
                                 <div class=" seven wide column"  >

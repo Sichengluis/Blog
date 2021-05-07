@@ -39,7 +39,7 @@ public class typeShowController {
      * @Date: 2021/2/7 20:43
      */
     @GetMapping({"/","/{id}"})
-    public String types( @PathVariable(required = false) Long id,@PageableDefault(size = 2,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String types( @PathVariable(required = false) Long id,@PageableDefault(size = 3,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
                         Model model){
         Page<Blog> blogList = blogService.getBlogList(pageable, new blogQuery(id));
         //初始化每个博客的内容简介
@@ -65,7 +65,7 @@ public class typeShowController {
      * @Date: 2021/2/7 20:30
      */
     @RequestMapping("/query")
-    public String query( Long id,@PageableDefault(size = 2,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String query( Long id,@PageableDefault(size = 3,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
                         Model model){
         Page<Blog> blogList = blogService.getBlogList(pageable, new blogQuery(id));
         //初始化每个博客的内容简介

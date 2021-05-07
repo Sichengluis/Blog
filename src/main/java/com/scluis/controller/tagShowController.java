@@ -42,7 +42,7 @@ public class tagShowController {
      * @Date: 2021/2/7 20:43
      */
     @GetMapping({"/","/{id}"})
-    public String tags(@PathVariable(required = false) Long id, @PageableDefault(size = 1,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String tags(@PathVariable(required = false) Long id, @PageableDefault(size = 3,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
                        Model model){
         Page<Blog> blogList = blogService.getBlogList(id,pageable);
         //初始化每个博客的内容简介
@@ -68,7 +68,7 @@ public class tagShowController {
      * @Date: 2021/2/7 20:30
      */
     @PostMapping("/query")
-    public String changePage( Long id,@PageableDefault(size = 1,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String changePage( Long id,@PageableDefault(size = 3,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
                               Model model){
         Page<Blog> blogList = blogService.getBlogList(id,pageable);//分页查询某一标签的全部博客
         //初始化每个博客的内容简介
