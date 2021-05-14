@@ -3,7 +3,11 @@ package com.scluis.config;
 /**
  * Created by Sichengluis on 2021/2/14 17:24
  */
-public class pageSizeConfig {
+public class paraConfig {
+
+//    显示数量
+
+
     //右侧热门分类显示数量
     public static final int topTypesPageSize=3;
     //右侧标签显示数量

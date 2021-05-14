@@ -1,6 +1,6 @@
 package com.scluis.controller.admin;
 
-import com.scluis.config.pageSizeConfig;
+import com.scluis.config.paraConfig;
 import com.scluis.po.Type;
 import com.scluis.service.typeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class typeController {
      * @Date: 2021/2/2 18:55
      */
     @GetMapping
-    public String types(@PageableDefault(size = pageSizeConfig.adminTypeSize,sort = {"id"},direction = Sort.Direction.DESC) Pageable pageable
+    public String types(@PageableDefault(size = paraConfig.adminTypeSize,sort = {"id"},direction = Sort.Direction.DESC) Pageable pageable
     , Model model){//通过springboot封装好的pageable对象实现分页,注意是org.springframework.data.domain包下
         //把查询出的数据放到model
         model.addAttribute("page",typeService.getTypeList(pageable));

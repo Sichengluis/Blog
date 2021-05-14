@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,6 +55,19 @@ public class typeServiceImpl implements typeService{
         //根据type中blogs的size查询，取第一页，每页元素数量是size
         Pageable pageable=new PageRequest(0,size,sort);
         return typeRepository.findTopType(pageable);
+    }
+
+    @Override
+    public List<Type> getTypes(Integer size) {
+        List<Type> res=new ArrayList<>();
+        List<Type> list=typeRepository.findAll();
+        for(int i=0;i<list.size();i++){
+            if(i==size){
+                break;
+            }
+            res.add(list.get(i));
+        }
+        return res;
     }
 
     /**

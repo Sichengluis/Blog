@@ -1,6 +1,6 @@
 package com.scluis.controller;
 
-import com.scluis.config.pageSizeConfig;
+import com.scluis.config.paraConfig;
 import com.scluis.service.blogService;
 import com.scluis.service.tagService;
 import com.scluis.service.typeService;
@@ -29,11 +29,11 @@ public class archiveShowController {
     public String archives(Model model){
         model.addAttribute("archives",blogService.getBlogList());
         model.addAttribute("blogNum",blogService.getBlogNum());
-        model.addAttribute("topTypes", typeService.getTypeList(pageSizeConfig.topTypesPageSize));
-        model.addAttribute("topTags", tagService.getTagList(pageSizeConfig.topTagsPageSize));
-        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(pageSizeConfig.recentRecommendedBlogsPageSize));
-        model.addAttribute("hotBlogs",blogService.getBlogList(pageSizeConfig.hotBlogsPageSize,"viewTimes"));
-        model.addAttribute("newBlogs",blogService.getBlogList(pageSizeConfig.newBlogsPageSize,"createTime"));
+        model.addAttribute("topTypes", typeService.getTypeList(paraConfig.topTypesPageSize));
+        model.addAttribute("topTags", tagService.getTagList(paraConfig.topTagsPageSize));
+        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(paraConfig.recentRecommendedBlogsPageSize));
+        model.addAttribute("hotBlogs",blogService.getBlogList(paraConfig.hotBlogsPageSize,"viewTimes"));
+        model.addAttribute("newBlogs",blogService.getBlogList(paraConfig.newBlogsPageSize,"createTime"));
         return "archives";
     }
 }

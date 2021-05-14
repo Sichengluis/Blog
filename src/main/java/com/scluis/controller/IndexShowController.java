@@ -1,6 +1,6 @@
 package com.scluis.controller;
 
-import com.scluis.config.pageSizeConfig;
+import com.scluis.config.paraConfig;
 import com.scluis.po.Blog;
 import com.scluis.service.blogService;
 import com.scluis.service.tagService;
@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 
 /**
@@ -65,11 +63,11 @@ public class IndexShowController {
             blog.initDescription();
         }
         model.addAttribute("page",blogList);
-        model.addAttribute("topTypes",typeService.getTypeList(pageSizeConfig.topTypesPageSize));
-        model.addAttribute("topTags",tagService.getTagList(pageSizeConfig.topTagsPageSize));
-        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(pageSizeConfig.recentRecommendedBlogsPageSize));
-        model.addAttribute("hotBlogs",blogService.getBlogList(pageSizeConfig.hotBlogsPageSize,"viewTimes"));
-        model.addAttribute("newBlogs",blogService.getBlogList(pageSizeConfig.newBlogsPageSize,"createTime"));
+        model.addAttribute("topTypes",typeService.getTypeList(paraConfig.topTypesPageSize));
+        model.addAttribute("topTags",tagService.getTagList(paraConfig.topTagsPageSize));
+        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(paraConfig.recentRecommendedBlogsPageSize));
+        model.addAttribute("hotBlogs",blogService.getBlogList(paraConfig.hotBlogsPageSize,"viewTimes"));
+        model.addAttribute("newBlogs",blogService.getBlogList(paraConfig.newBlogsPageSize,"createTime"));
         return "index";
     }
 
@@ -107,11 +105,11 @@ public class IndexShowController {
         }
         model.addAttribute("page",blogList);
         model.addAttribute("globalQueryKey",globalQueryKey);//为了在查询结果显示页面知道查询的关键字是什么
-        model.addAttribute("topTypes",typeService.getTypeList(pageSizeConfig.topTypesPageSize));
-        model.addAttribute("topTags",tagService.getTagList(pageSizeConfig.topTagsPageSize));
-        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(pageSizeConfig.recentRecommendedBlogsPageSize));
-        model.addAttribute("hotBlogs",blogService.getBlogList(pageSizeConfig.hotBlogsPageSize,"viewTimes"));
-        model.addAttribute("newBlogs",blogService.getBlogList(pageSizeConfig.newBlogsPageSize,"createTime"));
+        model.addAttribute("topTypes",typeService.getTypeList(paraConfig.topTypesPageSize));
+        model.addAttribute("topTags",tagService.getTagList(paraConfig.topTagsPageSize));
+        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(paraConfig.recentRecommendedBlogsPageSize));
+        model.addAttribute("hotBlogs",blogService.getBlogList(paraConfig.hotBlogsPageSize,"viewTimes"));
+        model.addAttribute("newBlogs",blogService.getBlogList(paraConfig.newBlogsPageSize,"createTime"));
         return "search";
     }
 

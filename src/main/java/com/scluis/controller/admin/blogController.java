@@ -1,7 +1,7 @@
 package com.scluis.controller.admin;
 
 import com.alibaba.fastjson.JSONObject;
-import com.scluis.config.pageSizeConfig;
+import com.scluis.config.paraConfig;
 import com.scluis.po.Blog;
 import com.scluis.po.Tag;
 import com.scluis.po.Type;
@@ -31,8 +31,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 /**
  * Created by Sichengluis on 2021/1/22 21:28
@@ -65,7 +63,7 @@ public class blogController {
      * @Date: 2021/2/2 18:31
      */
     @GetMapping
-    public String blogs(@PageableDefault(size = pageSizeConfig.adminBlogSize,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String blogs(@PageableDefault(size = paraConfig.adminBlogSize,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
                         blogQuery blogQuery, Model model){
         model.addAttribute("types",typeService.getTypeList());
         model.addAttribute("page",blogService.getBlogList(pageable,blogQuery));
@@ -80,7 +78,7 @@ public class blogController {
      * @Date: 2021/2/2 18:35
      */
     @PostMapping("/search")
-    public String blogsSearch(@PageableDefault(size =  pageSizeConfig.adminBlogSize,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
+    public String blogsSearch(@PageableDefault(size =  paraConfig.adminBlogSize,sort = {"createTime"},direction = Sort.Direction.DESC) Pageable pageable,
                               blogQuery blogQuery, Model model){
         model.addAttribute("page",blogService.getBlogList(pageable,blogQuery));
         return "admin/blogs::blogList";

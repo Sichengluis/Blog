@@ -24,59 +24,23 @@
                             <h3 class="ui header white">分类</h3>
                         </div>
                         <div class="right aligned column">
-                            共<h2 class="ui  header m-inline-block m-text-thin" th:text="${#arrays.length(types)}">14</h2>个
+                            共<h2 class="ui  header m-inline-block m-text-thin" th:text="${totalTypeNum}">14</h2>个
                         </div>
                     </div>
                 </div>
                 <!--主体-->
                 <div id="leftBlogList" class="animate__animated" th:fragment="blogList" >
                     <!--各个分类的标签-->
-                    <div class="ui attached segment m-padded-tb-large">
-                        <a  class="ui  large basic left pointing  label m-margin-tb-tiny m-black" onclick="typeSelected(this)" th:attr="data-id=${type.id}" th:each="type:${types}" th:classappend="${type.id==activeTypeId}?'black':''">
-                            <span th:text="${type.typeName}" >序列化</span>
-                            <div class="detail" th:text="${#arrays.length(type.blogs)}" >23</div>
-                        </a>
-                        <!--/*-->
-                        <!--<div class="ui labeled button m-margin-tb-tiny " th:each="type:${types}">-->
-                        <!--&lt;!&ndash;th:href="@{/types/{id}(id=${type.id})}"&ndash;&gt;-->
-                        <!--<a href="#"  onclick="typeSelected(this)" th:attr="data-id=${type.id}" class="ui basic button" th:text="${type.typeName}" th:classappend="${type.id==activeTypeId}?'black':''">Java</a>-->
-                        <!--<a href="#"  onclick="typeSelected(this)" th:attr="data-id=${type.id}" class="ui basic left pointing label m-black" th:text="${#arrays.length(type.blogs)}"  th:classappend="${type.id==activeTypeId}?'black':''">12</a>-->
-                        <!--</div>-->
-                        <!--*/-->
-                        <!--/*-->
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <div class="ui labeled button m-margin-tb-tiny">
-                            <a href="#" class="ui basic  button">Spring</a>
-                            <div class="ui basic  left pointing label">23</div>
-                        </div>
-                        <!--*/-->
+                    <div  class="ui attached segment m-padded-tb-large"  >
+                        <span id="typeList" th:fragment="typeList">
+                            <a  class="ui  large basic left pointing  label m-margin-tb-tiny m-black" onclick="typeSelected(this)" th:attr="data-id=${type.id},data-type-num=${#arrays.length(types)}" th:each="type:${types}"  th:classappend="${type.id==activeTypeId}?'black':''">
+                                <span th:text="${type.typeName}" >序列化</span>
+                                <div class="detail" th:text="${#arrays.length(type.blogs)}" >23</div>
+                            </a>
+                            <a  th:unless="#{typeShowNum}>=${totalTypeNum}" th:text="${currentTypeNum<totalTypeNum}?'...':'收起'" class="ui large basic label m-margin-tb-tiny m-black" id="showOrHideType" th:attr="data-active-type-id=${activeTypeId}" onclick="showOrHideType(this)"></a>
+                            <input type="hidden" th:value="${currentTypeNum}" id="currentTypeNum"/>
+                            <input type="hidden" th:value="${totalTypeNum}" id="totalTypeNum"/>
+                        </span>
                     </div>
                     <!--博客列表-->
                     <div class="ui top attached black segment" th:if="${page.totalElements>0}">
@@ -143,14 +107,14 @@
                     <div class="ui bottom attached segment" th:if="${page.totalPages>1}">
                         <div class="ui middle aligned two column grid">
                             <div class="column">
-                                <a class="icon m-black"  href="#" onclick="prePage(this)" th:attr="data-page=0">
+                                <a class="icon m-black"  href="#" onclick="prePage(this)" th:attr="data-page=0,data-type-num=${#arrays.length(types)}">
                                     <i class="angle double left icon"></i>
                                 </a>
-                                <a href="#" class="ui mini black basic button"  th:unless="${page.first}" onclick="prePage(this)" th:attr="data-page=${page.number}-1">上一页</a>
+                                <a href="#" class="ui mini black basic button"  th:unless="${page.first}" onclick="prePage(this)" th:attr="data-page=${page.number}-1,data-type-num=${#arrays.length(types)}">上一页</a>
                             </div>
                             <div class="right aligned column">
-                                <a href="#" class="ui mini black basic button"  th:unless="${page.last}" onclick="nextPage(this)" th:attr="data-page=${page.number}+1">下一页</a>
-                                <a class="icon m-black"  href="#" onclick="nextPage(this)" th:attr="data-page=${page.totalPages}-1" >
+                                <a href="#" class="ui mini black basic button"  th:unless="${page.last}" onclick="nextPage(this)" th:attr="data-page=${page.number}+1,data-type-num=${#arrays.length(types)}">下一页</a>
+                                <a class="icon m-black"  href="#" onclick="nextPage(this)" th:attr="data-page=${page.totalPages}-1,data-type-num=${#arrays.length(types)}" >
                                     <i class="angle double right icon"></i>
                                 </a>
                             </div>
@@ -370,18 +334,26 @@
                 animateElement.classList.remove(animate);
             });
         }
+        /*
+           //选中某一个分类
+        */
         function typeSelected(obj){
             selectedTypeId=$(obj).data("id");
             $("#leftBlogList").load(/*[[@{/types/query}]]*/"",{
                 page:0,
-                id:$(obj).data("id")
+                id:$(obj).data("id"),
+                typeNum:$(obj).data("typeNum")
             });
             queryAnimate('leftBlogList','animate__fadeIn')
         }
+        /*
+            //翻页时加载数据
+         */
         function loadData(obj){
             $("#leftBlogList").load(/*[[@{/types/query}]]*/"",{
                 page:$(obj).data("page"),
-                id:selectedTypeId
+                id:selectedTypeId,
+                typeNum:$(obj).data("typeNum")
             });
         }
         function prePage(obj){
@@ -391,6 +363,28 @@
         function nextPage(obj){
             loadData(obj);
             queryAnimate('leftBlogList', 'animate__fadeInLeft')
+        }
+        function loadTypeData(num,obj){
+            $("#typeList").load(/*[[@{/types/showOrHide}]]*/"",{
+                num:num,//显示全部还是部分
+                id:$(obj).data("activeTypeId")
+            });
+        }
+        function showOrHideType(obj) {
+            var currentTypeNum=$("#currentTypeNum").val();
+            var totalTypeNum=$("#totalTypeNum").val();
+            if(currentTypeNum<totalTypeNum){
+                //获取全部分类
+                $("#showOrHideType").text('收起')
+                //1代表显示全部
+                loadTypeData(1,obj)
+            }
+            else{
+                //获取部分分类
+                $("#showOrHideType").text('...')
+                //0代表显示部分
+                loadTypeData(0,obj)
+            }
         }
 
     </script>

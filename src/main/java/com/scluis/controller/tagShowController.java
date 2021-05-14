@@ -1,11 +1,10 @@
 package com.scluis.controller;
 
-import com.scluis.config.pageSizeConfig;
+import com.scluis.config.paraConfig;
 import com.scluis.po.Blog;
 import com.scluis.service.blogService;
 import com.scluis.service.tagService;
 import com.scluis.service.typeService;
-import com.scluis.vo.blogQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,11 +51,11 @@ public class tagShowController {
         model.addAttribute("tags",tagService.getTagList());
         model.addAttribute("page",blogList);
         model.addAttribute("activeTagId",id);
-        model.addAttribute("topTypes",typeService.getTypeList(pageSizeConfig.topTypesPageSize));
-        model.addAttribute("topTags",tagService.getTagList(pageSizeConfig.topTagsPageSize));
-        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(pageSizeConfig.recentRecommendedBlogsPageSize));
-        model.addAttribute("hotBlogs",blogService.getBlogList(pageSizeConfig.hotBlogsPageSize,"viewTimes"));
-        model.addAttribute("newBlogs",blogService.getBlogList(pageSizeConfig.newBlogsPageSize,"createTime"));
+        model.addAttribute("topTypes",typeService.getTypeList(paraConfig.topTypesPageSize));
+        model.addAttribute("topTags",tagService.getTagList(paraConfig.topTagsPageSize));
+        model.addAttribute("recentRecommendedBlogs",blogService.getBlogList(paraConfig.recentRecommendedBlogsPageSize));
+        model.addAttribute("hotBlogs",blogService.getBlogList(paraConfig.hotBlogsPageSize,"viewTimes"));
+        model.addAttribute("newBlogs",blogService.getBlogList(paraConfig.newBlogsPageSize,"createTime"));
         return "tags";
     }
 

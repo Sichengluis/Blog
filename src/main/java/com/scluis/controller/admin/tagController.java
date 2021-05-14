@@ -1,6 +1,6 @@
 package com.scluis.controller.admin;
 
-import com.scluis.config.pageSizeConfig;
+import com.scluis.config.paraConfig;
 import com.scluis.po.Tag;
 import com.scluis.service.tagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class tagController {
      */
     @GetMapping
     //分页显示tag列表，PageableDefault注解指明分页的参数
-    public String tags(@PageableDefault(size = pageSizeConfig.adminTagSize,sort = {"id"},direction = Sort.Direction.DESC) Pageable pageable
+    public String tags(@PageableDefault(size = paraConfig.adminTagSize,sort = {"id"},direction = Sort.Direction.DESC) Pageable pageable
             , Model model){//通过springboot封装好的pageable对象实现分页,注意是org.springframework.data.domain包下
         //把查询出的数据放到model
         model.addAttribute("page",tagService.getTagList(pageable));

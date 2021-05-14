@@ -36,6 +36,13 @@ public interface typeService {
      * @Date: 2021/2/2 18:21
      */
     List<Type> getTypeList(Integer size);
+
+    /**
+     * 分类页面最开始显示前size个分类标签
+     * @param size
+     * @return
+     */
+    List<Type> getTypes(Integer size);
     void deleteType(Long id);
     Type getTypeByTypeName(String typeName);
 }
