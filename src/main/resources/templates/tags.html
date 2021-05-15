@@ -24,7 +24,7 @@
                             <h3 class="ui header white">标签</h3>
                         </div>
                         <div class="right aligned column">
-                            共<h2 class="ui  header m-inline-block m-text-thin" th:text="${#arrays.length(tags)}">14</h2>个
+                            共<h2 class="ui  header m-inline-block m-text-thin" th:text="${totalTagNum}">14</h2>个
                         </div>
                     </div>
                 </div>
@@ -32,45 +32,16 @@
                 <div id="leftBlogList" th:fragment="blogList" class="animate__animated">
                     <!--各个标签-->
                     <div class="ui attached segment m-padded-tb-large">
-                        <a  class="ui large label m-margin-tb-tiny m-black" onclick="tagSelected(this)" th:attr="data-id=${tag.id}" th:each="tag:${tags}" th:classappend="${tag.id==activeTagId}?'black':''">
-                            <span th:text="${tag.tagName}" >序列化</span>
-                            <div class="detail" th:text="${#arrays.length(tag.blogs)}" >23</div>
-                        </a>
-                        <!--/*-->
-                        <!--<div class="ui labeled button m-margin-tb-tiny " th:each="tag:${tags}">-->
-                        <!--<a href="#"  onclick="tagSelected(this)" th:attr="data-id=${tag.id}" class="ui basic button" th:text="${tag.tagName}" th:classappend="${tag.id==activeTagId}?'black':''">Java</a>-->
-                        <!--<a href="#"  onclick="tagSelected(this)" th:attr="data-id=${tag.id}" class="ui basic label m-black" th:text="${#arrays.length(tag.blogs)}"  th:classappend="${tag.id==activeTagId}?'black':''">12</a>-->
-                        <!--</div>-->
-                        <!--*/-->
-                        <!--/*-->
-                        <a href="#" target="_blank" class="ui   basic large  label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large  label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large  label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large  label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large  label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large  label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="#" target="_blank" class="ui   basic large  label m-margin-tb-tiny">序列化
-                            <div class="detail">23</div>
-                        </a>
-                        <!--*/-->
+                        <span id="tagList" th:fragment="tagList">
+                            <a  class="ui large label m-margin-tb-tiny m-black" onclick="tagSelected(this)" th:attr="data-id=${tag.id},data-tag-num=${#arrays.length(tags)}" th:each="tag:${tags}" th:classappend="${tag.id==activeTagId}?'black':''">
+                                <span th:text="${tag.tagName}" >序列化</span>
+                                <div class="detail" th:text="${#arrays.length(tag.blogs)}" >23</div>
+                            </a>
+                            <a  th:unless="#{tagShowNum}>=${totalTagNum}" th:text="${currentTagNum<totalTagNum}?'...':'收起'" class="ui large basic label m-margin-tb-tiny m-black" id="showOrHideTag" th:attr="data-active-tag-id=${activeTagId}" onclick="showOrHideTag(this)"></a>
+                            <input type="hidden" th:value="${currentTagNum}" id="currentTagNum"/>
+                            <input type="hidden" th:value="${totalTagNum}" id="totalTagNum"/>
+                        </span>
+
                     </div>
                     <!--博客列表-->
                     <div class="ui top attached black segment" th:if="${page.totalElements>0}">
@@ -137,14 +108,14 @@
                     <div class="ui bottom attached segment" th:if="${page.totalPages>1}">
                         <div class="ui middle aligned two column grid">
                             <div class="column">
-                                <a class="icon m-black"  href="#" onclick="prePage(this)" th:attr="data-page=0">
+                                <a class="icon m-black"  href="#" onclick="prePage(this)" th:attr="data-page=0,data-tag-num=${#arrays.length(tags)}">
                                     <i class="angle double left icon"></i>
                                 </a>
-                                <a href="#" class="ui mini black basic button"  th:unless="${page.first}" onclick="prePage(this)" th:attr="data-page=${page.number}-1">上一页</a>
+                                <a href="#" class="ui mini black basic button"  th:unless="${page.first}" onclick="prePage(this)" th:attr="data-page=${page.number}-1,data-tag-num=${#arrays.length(tags)}">上一页</a>
                             </div>
                             <div class="right aligned column">
-                                <a href="#" class="ui mini black basic button"  th:unless="${page.last}" onclick="nextPage(this)" th:attr="data-page=${page.number}+1">下一页</a>
-                                <a class="icon m-black"  href="#" onclick="nextPage(this)" th:attr="data-page=${page.totalPages}-1" >
+                                <a href="#" class="ui mini black basic button"  th:unless="${page.last}" onclick="nextPage(this)" th:attr="data-page=${page.number}+1,data-tag-num=${#arrays.length(tags)}">下一页</a>
+                                <a class="icon m-black"  href="#" onclick="nextPage(this)" th:attr="data-page=${page.totalPages}-1,data-tag-num=${#arrays.length(tags)}" >
                                     <i class="angle double right icon"></i>
                                 </a>
                             </div>
@@ -378,13 +349,15 @@
         queryAnimate('leftBlogList','animate__fadeIn')
         $("#leftBlogList").load(/*[[@{/tags/query}]]*/"",{
             page:0,
-            id:$(obj).data("id")
+            id:$(obj).data("id"),
+            tagNum:$(obj).data("tagNum")
         });
     }
     function loadData(obj){
         $("#leftBlogList").load(/*[[@{/tags/query}]]*/"",{
             page:$(obj).data("page"),
-            id:selectedTagId
+            id:selectedTagId,
+            tagNum:$(obj).data("tagNum")
         });
     }
     function prePage(obj){
@@ -394,6 +367,28 @@
     function nextPage(obj){
         queryAnimate('leftBlogList', 'animate__fadeInLeft')
         loadData(obj);
+    }
+    function loadTagData(num,obj){
+        $("#tagList").load(/*[[@{/tags/showOrHide}]]*/"",{
+            num:num,//显示全部还是部分
+            id:$(obj).data("activeTagId")
+        });
+    }
+    function showOrHideTag(obj) {
+        var currentTagNum=$("#currentTagNum").val();
+        var totalTagNum=$("#totalTagNum").val();
+        if(currentTagNum<totalTagNum){
+            //获取全部分类
+            $("#showOrHideTag").text('收起')
+            //1代表显示全部
+            loadTagData(1,obj)
+        }
+        else{
+            //获取部分分类
+            $("#showOrHideTag").text('...')
+            //0代表显示部分
+            loadTagData(0,obj)
+        }
     }
 </script>
 </body>

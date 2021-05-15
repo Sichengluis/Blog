@@ -1,6 +1,7 @@
 package com.scluis.service;
 
 import com.scluis.po.Tag;
+import com.scluis.po.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
@@ -26,6 +27,8 @@ public interface tagService {
      * @Date: 2021/2/2 18:20
      */
     List<Tag> getTagList();
+
+    List<Tag> getTags(Integer size);
     /**
      * 功能描述:根据标签id获取对应标签
      * @Param: [tagIdList 标签id组成的List]

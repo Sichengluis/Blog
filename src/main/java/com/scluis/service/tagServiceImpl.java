@@ -1,6 +1,7 @@
 package com.scluis.service;
 
 import com.scluis.po.Tag;
+import com.scluis.po.Type;
 import com.scluis.repository.tagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +41,19 @@ public class tagServiceImpl implements tagService {
     public List<Tag> getTagList() {
 
         return tagRepository.findAll();
+    }
+
+    @Override
+    public List<Tag> getTags(Integer size) {
+        List<Tag> res=new ArrayList<>();
+        List<Tag> list=tagRepository.findAll();
+        for(int i=0;i<list.size();i++){
+            if(i==size){
+                break;
+            }
+            res.add(list.get(i));
+        }
+        return res;
     }
 
     @Override
