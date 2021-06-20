@@ -6,11 +6,16 @@
 <!--这样顶部导航或者底部变动的时候，只需要在这个文件中改一次即可-->
 <!--头部fragment-->
 <!--*/-->
-
-<head th:fragment="head(title)">
+<!--/*-->
+<!--<head th:fragment="head(title)">-->
+<!--*/-->
+<head th:fragment="head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:replace="${title}">博客详情</title>
+    <title>SICHENGLUIS个人博客-记录点滴日常</title>
+    <meta name="description" content="SICHENGLUIS个人博客sichengluis.work-分享生活日常，记录点滴进步" />
+    <meta name="keywords" content="lisicheng,sicheng,sichengluis,SICHENGLUIS,LISICHENG,SICHENG,博客,个人博客" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <link rel="stylesheet" href="../static/css/myCss.css" th:href="@{/css/myCss.css}">
@@ -18,6 +23,8 @@
     <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
     <link rel="stylesheet" href="../static/lib/tocbot/tocbot.css" th:href="@{/lib/tocbot/tocbot.css}">
     <link rel="stylesheet" href="../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}"  />
+
 </head>
 
 <body>

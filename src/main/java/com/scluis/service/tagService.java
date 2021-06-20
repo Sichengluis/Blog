@@ -28,6 +28,11 @@ public interface tagService {
      */
     List<Tag> getTagList();
 
+    /**
+     * 获取全部标签中的前size个，用于显示或隐藏标签
+     * @param size
+     * @return
+     */
     List<Tag> getTags(Integer size);
     /**
      * 功能描述:根据标签id获取对应标签

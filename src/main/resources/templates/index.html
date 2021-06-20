@@ -3,7 +3,8 @@
 <!--/*-->
 <!--页面的头部，顶部导航、底部、js都是通过thymeleaf的fragment动态引入的，直接访问静态页面看不到-->
 <!--*/-->
-<head th:replace="_fragments::head(~{::title})">
+<!--<head th:replace="_fragments::head(~{::title})">-->
+<head th:replace="_fragments::head">
     <!--/*-->
     <!--~{::title}代表把整个title标签即<title>首页</title>作为参数传递了过去-->
     <!--*/-->
@@ -12,7 +13,7 @@
     <!--适配移动端-->
     <!--*/-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>首页</title>
+    <title>SICHENGLUIS个人博客-记录点滴日常</title>
     <link rel="stylesheet" href="../static/css/myCss.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <link rel="stylesheet" href="../static/css/typo.css">

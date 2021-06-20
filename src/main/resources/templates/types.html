@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="_fragments::head(~{::title})">
+<!--<head th:replace="_fragments::head(~{::title})">-->
+<head th:replace="_fragments::head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>分类专栏</title>
@@ -368,21 +369,24 @@
             $("#typeList").load(/*[[@{/types/showOrHide}]]*/"",{
                 num:num,//显示全部还是部分
                 id:$(obj).data("activeTypeId")
+            },function (status ) {
+                if (status=='success'&&num==1){
+                    $("#showOrHideType").text('收起')
+                }
+                if (status=='success'&&num==0){
+                    $("#showOrHideType").text('...')
+                }
             });
         }
         function showOrHideType(obj) {
             var currentTypeNum=$("#currentTypeNum").val();
             var totalTypeNum=$("#totalTypeNum").val();
             if(currentTypeNum<totalTypeNum){
-                //获取全部分类
-                $("#showOrHideType").text('收起')
-                //1代表显示全部
+                //获取全部分类,代表显示全部
                 loadTypeData(1,obj)
             }
             else{
-                //获取部分分类
-                $("#showOrHideType").text('...')
-                //0代表显示部分
+                //获取部分分类,0代表显示部分
                 loadTypeData(0,obj)
             }
         }

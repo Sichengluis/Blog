@@ -3,7 +3,7 @@ spring:
   thymeleaf:
     mode: HTML
   profiles:
-    active: dev
+    active: prod
   messages:
     basename: i18n/messages
     encoding: utf-8
@@ -12,5 +12,8 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
       enabled: true
+  mvc:
+    favicon:
+      enabled: false
 
 comment.avatar: /images/anonymousCommenterAvatar.png
