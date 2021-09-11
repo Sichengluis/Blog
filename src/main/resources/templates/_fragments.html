@@ -274,6 +274,8 @@
                 element: document.getElementsByTagName("canvas"),//监听哪个元素有没有被滚动
                 handler: function(direction) {//滚动时触发的方法
                     if(direction=='down'){
+                        // var banner=document.querySelector('#banner');
+                        $('#banner')&&$('#banner').css("display","none");
                         $('#toolbar').show(500);
                     }
                     else{

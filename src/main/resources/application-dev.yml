@@ -3,11 +3,11 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: "123456"
+    password: "root"
 
   jpa:
     hibernate:
-      dl-auto: update #update代表根据实体类自动更新数据库表结构
+      ddl-auto: update #update代表根据实体类自动更新数据库表结构
     show-sql: true #设置在控制台和日志文件中输入sql语句
 #配置springboot默认使用的logback日志框架
 logging:

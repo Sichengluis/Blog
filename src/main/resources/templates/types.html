@@ -328,13 +328,7 @@
     //        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
             $('.m-item').toggleClass('m-mobile-hide');
         });
-        function queryAnimate(element,animate){
-            const animateElement = document.querySelector('#'+element);
-            animateElement.classList.add(animate);
-            animateElement.addEventListener('animationend', function (){
-                animateElement.classList.remove(animate);
-            });
-        }
+
         /*
            //选中某一个分类
         */
@@ -357,13 +351,31 @@
                 typeNum:$(obj).data("typeNum")
             });
         }
+        function queryAnimate(element,animate){
+            const animateElement = document.querySelector('#'+element);
+            animateElement.classList.add(animate);
+            animateElement.addEventListener('animationend', function (){
+                animateElement.classList.remove(animate);
+                flag=true;
+            });
+        }
+        //节流阀，防止快速翻页时动画效果消失
+        var flag=true;
         function prePage(obj){
-            loadData(obj);
-            queryAnimate('leftBlogList', 'animate__fadeInRight')
+            if(flag){
+                flag=false;
+                loadData(obj);
+                queryAnimate('leftBlogList', 'animate__fadeInRight')
+            }
+
         }
         function nextPage(obj){
-            loadData(obj);
-            queryAnimate('leftBlogList', 'animate__fadeInLeft')
+            if(flag){
+                flag=false;
+                loadData(obj);
+                queryAnimate('leftBlogList', 'animate__fadeInLeft')
+            }
+
         }
         function loadTypeData(num,obj){
             $("#typeList").load(/*[[@{/types/showOrHide}]]*/"",{

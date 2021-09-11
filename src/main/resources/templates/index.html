@@ -471,7 +471,9 @@
 <!--/*/</th:block>/*/-->
 
 <script th:inline="javascript">
-
+    // $('canvas').scroll(function() {
+    //     $('#toContentButton').click();
+    // });
     $('#mobileMenu').click(function(){
 //        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
         $('.m-item').toggleClass('m-mobile-hide');
@@ -557,15 +559,26 @@
         animateElement.classList.add(animate);
         animateElement.addEventListener('animationend', function (){
             animateElement.classList.remove(animate);
+            flag=true;
         });
+
     }
+    //节流阀，防止快速翻页时动画效果消失
+    var flag=true;
     function prePage(obj){
-        changePageAnimate('leftBlogList','animate__fadeInRight')
-        loadData(obj);
+        if(flag){
+            flag=false;
+            changePageAnimate('leftBlogList','animate__fadeInRight')
+            loadData(obj);
+        }
     }
+
     function nextPage(obj){
-        changePageAnimate('leftBlogList','animate__fadeInLeft')
-        loadData(obj);
+        if(flag){
+            flag=false;
+            changePageAnimate('leftBlogList','animate__fadeInLeft')
+            loadData(obj);
+        }
     }
 
 </script>

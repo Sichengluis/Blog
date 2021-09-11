@@ -338,13 +338,7 @@
 //        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
         $('.m-item').toggleClass('m-mobile-hide');
     });
-    function queryAnimate(element,animate){
-        const animateElement = document.querySelector('#'+element);
-        animateElement.classList.add(animate);
-        animateElement.addEventListener('animationend', function (){
-            animateElement.classList.remove(animate);
-        });
-    }
+
     function tagSelected(obj){
         selectedTagId=$(obj).data("id");
         queryAnimate('leftBlogList','animate__fadeIn')
@@ -361,13 +355,30 @@
             tagNum:$(obj).data("tagNum")
         });
     }
+    function queryAnimate(element,animate){
+        const animateElement = document.querySelector('#'+element);
+        animateElement.classList.add(animate);
+        animateElement.addEventListener('animationend', function (){
+            animateElement.classList.remove(animate);
+            flag=true;
+        });
+    }
+    //节流阀，防止快速翻页时动画效果消失
+    var flag=true;
     function prePage(obj){
-        queryAnimate('leftBlogList', 'animate__fadeInRight')
-        loadData(obj);
+        if(flag){
+            flag=false;
+            queryAnimate('leftBlogList', 'animate__fadeInRight')
+            loadData(obj);
+        }
     }
     function nextPage(obj){
-        queryAnimate('leftBlogList', 'animate__fadeInLeft')
-        loadData(obj);
+        if(flag){
+            flag=false;
+            queryAnimate('leftBlogList', 'animate__fadeInLeft')
+            loadData(obj);
+        }
+
     }
     function loadTagData(num,obj){
         $("#tagList").load(/*[[@{/tags/showOrHide}]]*/"",{
