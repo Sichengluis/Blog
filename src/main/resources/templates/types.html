@@ -333,13 +333,17 @@
            //选中某一个分类
         */
         function typeSelected(obj){
-            selectedTypeId=$(obj).data("id");
-            $("#leftBlogList").load(/*[[@{/types/query}]]*/"",{
-                page:0,
-                id:$(obj).data("id"),
-                typeNum:$(obj).data("typeNum")
-            });
-            queryAnimate('leftBlogList','animate__fadeIn')
+            if(flag){
+                flag=false;
+                selectedTypeId=$(obj).data("id");
+                $("#leftBlogList").load(/*[[@{/types/query}]]*/"",{
+                    page:0,
+                    id:$(obj).data("id"),
+                    typeNum:$(obj).data("typeNum")
+                });
+                queryAnimate('leftBlogList','animate__fadeIn')
+            }
+
         }
         /*
             //翻页时加载数据

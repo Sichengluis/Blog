@@ -471,9 +471,10 @@
 <!--/*/</th:block>/*/-->
 
 <script th:inline="javascript">
-    // $('canvas').scroll(function() {
-    //     $('#toContentButton').click();
-    // });
+
+    $(function (){
+        $(window).scrollTo(0,888) //888是滚动到目标的时间
+    })
     $('#mobileMenu').click(function(){
 //        toggleClass代表参数的样式如果有则去除掉，如果没有则加上
         $('.m-item').toggleClass('m-mobile-hide');

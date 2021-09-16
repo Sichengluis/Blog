@@ -93,6 +93,9 @@ canvas {
 .animate__fadeInLeft {
     --animate-duration: 1s !important;
 }
+.animate__fadeIn {
+    --animate-duration: .8s !important;
+}
 .m-margin-bottom-zero{
     margin-bottom:0 !important;
 }
@@ -241,7 +244,7 @@ canvas {
 /*行间距*/
 .m-text-lined{
     /*1.8倍的行间距*/
-    line-height:1.8;
+    line-height:1.8 !important;
 }
 .m-opacity-mini{
     opacity: 0.8 !important;

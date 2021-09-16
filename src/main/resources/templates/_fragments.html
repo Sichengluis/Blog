@@ -143,6 +143,33 @@
         <script  th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
         <script  th:src="@{/lib/editormd/editormd.min.js}"></script>
         <script th:inline="javascript">
+            var scrollFunc = function(e) {
+                var e = e || window.event;
+                if(e.wheelDelta) {
+                    if(e.wheelDelta < 0) {     //当鼠标滚轮向下滚动时
+                        $('#banner')&&$('#banner').slideUp(500)
+                        $('#toolbar').show(500);
+                    }
+                    else{
+                        $('#toolbar').hide(500);//设置元素消失的时间间隔
+                    }
+                } else if(e.detail) {
+                    if(e.detail > 0) {   //当鼠标滚轮向下滚动时
+                        $('#banner')&&$('#banner').slideUp(500)
+                        $('#toolbar').show(500);
+                    }
+                    else{
+                        $('#toolbar').hide(500);//设置元素消失的时间间隔
+                    }
+                }
+            }
+            //    给页面绑定鼠标滚轮事件,针对火狐的非标准事件
+            window.addEventListener("DOMMouseScroll", scrollFunc)
+            //    给页面绑定鼠标滚轮事件，针对Google，mousewheel非标准事件已被弃用，请使用 wheel事件代替
+            window.addEventListener("wheel", scrollFunc)
+            //    ie不支持wheel事件，若一定要兼容，可使用mousewheel
+            window.addEventListener("mousewheel", scrollFunc)
+
             // $("#newBlogContainer").load(/*[[@{/footer/newBlogs}]]*/"/footer/newBlogs");
             // 动态背景
             $(function(){
@@ -269,131 +296,30 @@
             }
             setInterval(runtime, 1000);
             //滚动时导航栏相关
-            //滚动检测
-            var waypoint = new Waypoint({
-                element: document.getElementsByTagName("canvas"),//监听哪个元素有没有被滚动
-                handler: function(direction) {//滚动时触发的方法
-                    if(direction=='down'){
-                        // var banner=document.querySelector('#banner');
-                        $('#banner')&&$('#banner').css("display","none");
-                        $('#toolbar').show(500);
-                    }
-                    else{
-                        $('#toolbar').hide(500);//设置元素消失的时间间隔
-                    }
-                }
-            })
+            // //滚动检测
+            // var waypoint = new Waypoint({
+            //     element: document.getElementsByTagName("canvas"),//监听哪个元素有没有被滚动
+            //     handler: function(direction) {//滚动时触发的方法
+            //         if(direction=='down'){
+            //             // var banner=document.querySelector('#banner');
+            //             // $('#banner')&&$('#banner').css("display","none");
+            //             // $('#banner')&&$('#banner').slideUp(500)
+                          //$('#toolbar').show(500);
+            //
+            //         }
+            //         else{
+            //            //$('#toolbar').hide(500);
+            //         }
+            //     }
+            // })
             //平滑滚动
             $('#toTopButton').click(function () {
                 $(window).scrollTo(0,888) //888是滚动到目标的时间
             });
-            // 白色背景线条
-            // !function(){
-            //     function colorValue(min) {
-            //         return Math.floor(Math.random() * 255 + min);
-            //     }
-            //
-            //     function createColorStyle(r,g,b) {
-            //         return 'rgba(' + r + ',' + g + ',' + b + ', 0.8)';
-            //     }
-            //     function averageColorStyles(dot1, dot2) {
-            //         var color1 = dot1.color,
-            //             color2 = dot2.color;
-            //
-            //         var r = mixComponents(color1.r, dot1.radius, color2.r, dot2.radius),
-            //             g = mixComponents(color1.g, dot1.radius, color2.g, dot2.radius),
-            //             b = mixComponents(color1.b, dot1.radius, color2.b, dot2.radius);
-            //         return createColorStyle(Math.floor(r), Math.floor(g), Math.floor(b));
-            //     }
-            //
-            //     function Color(min) {
-            //         min = min || 0;
-            //         this.r = colorValue(min);
-            //         this.g = colorValue(min);
-            //         this.b = colorValue(min);
-            //         this.style = createColorStyle(this.r, this.g, this.b);
-            //     }
-            //     function n(n,e,t){
-            //         return n.getAttribute(e)||t
-            //     }
-            //     function e(n){
-            //         return document.getElementsByTagName(n)
-            //     }
-            //     function t(){
-            //         var t=e("script"),o=t.length,i=t[o-1];
-            //         return{
-            //             l:o,z:n(i,"zIndex",-1),o:n(i,"opacity",.5),c:n(i,"color","255,255,255"),n:n(i,"count",88)
-            //             // l:o,z:n(i,"zIndex",-1),o:n(i,"opacity",.5),c:n(i,"color",new Color()),n:n(i,"count",88)
-            //         }
-            //     }
-            //     function o(){
-            //         a=m.width=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,
-            //             c=m.height=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight
-            //     }
-            //
-            //     function i(){
-            //         r.clearRect(0,0,a,c);
-            //         var n,e,t,o,m,l;
-            //         s.forEach(function(i,x){
-            //             for(i.x+=i.xa,i.y+=i.ya,i.xa*=i.x>a||i.x<0?-1:1,i.ya*=i.y>c||i.y<0?-1:1,r.fillRect(i.x-.5,i.y-.5,1,1),e=x+1;e<u.length;e++)n=u[e],
-            //             null!==n.x&&null!==n.y&&(o=i.x-n.x,m=i.y-n.y,
-            //                 l=o*o+m*m,l<n.max&&(n===y&&l>=n.max/2&&(i.x-=.03*o,i.y-=.03*m),
-            //                 t=(n.max-l)/n.max,r.beginPath(),r.lineWidth=t/2,r.strokeStyle="rgba("+d.c+","+(t+.2)+")",r.moveTo(i.x,i.y),r.lineTo(n.x,n.y),r.stroke()))
-            //                 //t=(n.max-l)/n.max,r.beginPath(),r.lineWidth=t/2,r.strokeStyle=(new Color(150)).style,r.moveTo(i.x,i.y),r.lineTo(n.x,n.y),r.stroke()))
-            //         }),
-            //             x(i)
-            //     }
-            //
-            //     var a,c,u,m=document.createElement("canvas"),
-            //         d=t(),l="c_n"+d.l,r=m.getContext("2d"),
-            //         x=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||
-            //             function(n){
-            //                 window.setTimeout(n,1e3/45)
-            //             },
-            //         w=Math.random,y={x:null,y:null,max:2e4};m.id=l,m.style.cssText="position:fixed;top:0;left:0;z-index:"+d.z+";opacity:"+d.o,e("body")[0].appendChild(m),o(),window.οnresize=o,
-            //         window.onmousemove=function(n){
-            //             n=n||window.event,y.x=n.clientX,y.y=n.clientY
-            //         },
-            //         window.onmouseout=function(){
-            //             y.x=null,y.y=null
-            //         };
-            //     for(var s=[],f=0;d.n>f;f++){
-            //         var h=w()*a,g=w()*c,v=2*w()-1,p=2*w()-1;s.push({x:h,y:g,xa:v,ya:p,max:6e3})
-            //     }
-            //     u=s.concat([y]),
-            //         setTimeout(function(){i()},100)
-            // }();
+
         </script>
     </th:block>
 
-    <!--/*-->
-    <!--旧导航-->
-    <!--顶部导航fragment,传入参数activeIndex代表当前选中页面的下标-->
-    <!--<nav th:fragment="menu(activeIndex)" class="ui inverted black vertical  segment m-padded-tb-mini  " >&lt;!&ndash;inverted颜色反转&ndash;&gt;-->
-    <!--<div class="ui container">-->
-    <!--<div class="ui inverted secondary stackable menu">-->
-    <!--<h2 class="ui white header item">Sichengluis Blog</h2>-->
-    <!--<a href="#" class="m-item item m-mobile-hide" th:classappend="${activeIndex==1} ? 'active'" th:href="@{/}"><i class="small home icon"></i>[[#{nav.1}]]</a>-->
-    <!--<a href="#" class="m-item item m-mobile-hide" th:classappend="${activeIndex==2} ? 'active'" th:href="@{/types/}"><i class="small idea icon"></i>[[#{nav.2}]]</a>-->
-    <!--<a href="#" class="m-item item m-mobile-hide" th:classappend="${activeIndex==3} ? 'active'" th:href="@{/tags/}"><i class="small tags icon"></i>[[#{nav.3}]]</a>-->
-    <!--<a href="#" class="m-item item m-mobile-hide" th:classappend="${activeIndex==4} ? 'active'" th:href="@{/archives/}"><i class="small clone icon"></i>[[#{nav.4}]]</a>-->
-    <!--<a href="#" class="m-item item m-mobile-hide" th:classappend="${activeIndex==5} ? 'active'" th:href="@{/about/}"><i class="small info icon"></i>[[#{nav.5}]]</a>-->
-    <!--&lt;!&ndash;搜索框&ndash;&gt;-->
-    <!--<div class="right m-item item m-mobile-hide">-->
-    <!--<form name="search" action="#" th:action="@{/search}" target="_blank" method="post">-->
-    <!--<div class="ui icon inverted transparent input">-->
-    <!--<input type="text" name="globalQueryKey" placeholder="搜索..."  th:value="${globalQueryKey}">-->
-    <!--<i class="search link icon" onclick="document.forms['search'].submit()"></i>-->
-    <!--</div>-->
-    <!--</form>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;移动端的显示菜单图标&ndash;&gt;-->
-    <!--<a href="#" class="ui black icon button m-right-top m-hideOrShow" id="mobileMenu">-->
-    <!--<i class="sidebar icon"></i>-->
-    <!--</a>-->
-    <!--</nav>-->
-    <!--*/-->
+
 </body>
 </html>
