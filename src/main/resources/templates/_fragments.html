@@ -147,16 +147,16 @@
                 var e = e || window.event;
                 if(e.wheelDelta) {
                     if(e.wheelDelta < 0) {     //当鼠标滚轮向下滚动时
-                        $('#banner')&&$('#banner').slideUp(500)
-                        $('#toolbar').show(500);
+                        $('#banner')&&$('#banner').css('display')!='none'&&$('#banner').slideUp(500)
+                        !$('#banner')||$('#banner').css('display')=='none'&&$('#toolbar').show(500);
                     }
                     else{
                         $('#toolbar').hide(500);//设置元素消失的时间间隔
                     }
                 } else if(e.detail) {
                     if(e.detail > 0) {   //当鼠标滚轮向下滚动时
-                        $('#banner')&&$('#banner').slideUp(500)
-                        $('#toolbar').show(500);
+                        $('#banner')&&$('#banner').css('display')!='none'&&$('#banner').slideUp(500)
+                        !$('#banner')||$('#banner').css('display')=='none'&&$('#toolbar').show(500);
                     }
                     else{
                         $('#toolbar').hide(500);//设置元素消失的时间间隔

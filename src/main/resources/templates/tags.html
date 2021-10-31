@@ -340,13 +340,17 @@
     });
 
     function tagSelected(obj){
-        selectedTagId=$(obj).data("id");
-        queryAnimate('leftBlogList','animate__fadeIn')
-        $("#leftBlogList").load(/*[[@{/tags/query}]]*/"",{
-            page:0,
-            id:$(obj).data("id"),
-            tagNum:$(obj).data("tagNum")
-        });
+        if(flag){
+            flag=false;
+            selectedTagId=$(obj).data("id");
+            queryAnimate('leftBlogList','animate__fadeIn')
+            $("#leftBlogList").load(/*[[@{/tags/query}]]*/"",{
+                page:0,
+                id:$(obj).data("id"),
+                tagNum:$(obj).data("tagNum")
+            });
+        }
+
     }
     function loadData(obj){
         $("#leftBlogList").load(/*[[@{/tags/query}]]*/"",{
